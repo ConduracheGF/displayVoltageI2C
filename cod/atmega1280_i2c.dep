@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+    <fileVersion>4</fileVersion>
+    <fileChecksum>82657419</fileChecksum>
+    <configuration>
+        <name>Debug</name>
+        <outputs>
+            <file>$TOOLKIT_DIR$\lib\dlib\dlAVR-3s-ec_mul-n.r90</file>
+            <file>$TOOLKIT_DIR$\src\template\cfgm1280.xcl</file>
+            <file>$TOOLKIT_DIR$\src\template\cfg3soim.xcl</file>
+            <file>$PROJ_DIR$\Debug\List\atmega1280_i2c.html</file>
+            <file>$PROJ_DIR$\Debug\Obj\functii_i2c.xcl</file>
+            <file>$PROJ_DIR$\Debug\Obj\functii_afisare.r90</file>
+            <file>$PROJ_DIR$\Debug\Obj\functii_timer.r90</file>
+            <file>$PROJ_DIR$\Debug\Obj\functii_afisare.xcl</file>
+            <file>$PROJ_DIR$\Debug\Obj\functii_i2c.r90</file>
+            <file>$PROJ_DIR$\Debug\Obj\functii_adc.xcl</file>
+            <file>$PROJ_DIR$\Debug\Obj\functii_adc.r90</file>
+            <file>$PROJ_DIR$\Debug\Obj\functii_timer.xcl</file>
+            <file>$PROJ_DIR$\Debug\List\usart_my_lib.lst</file>
+            <file>$PROJ_DIR$\Debug\List\usart_my_lib.s90</file>
+            <file>$PROJ_DIR$\Debug\List\usart_control.s90</file>
+            <file>$PROJ_DIR$\Debug\List\usart_round_buff.lst</file>
+            <file>$PROJ_DIR$\Debug\List\functii_i2c.s90</file>
+            <file>$PROJ_DIR$\Debug\List\state_machine.s90</file>
+            <file>$PROJ_DIR$\Debug\List\usart_round_buff.s90</file>
+            <file>$PROJ_DIR$\Debug\List\functii_timer.lst</file>
+            <file>$TOOLKIT_DIR$\inc\dlib\c\ycheck.h</file>
+            <file>$TOOLKIT_DIR$\inc\dlib\c\yvals.h</file>
+            <file>$PROJ_DIR$\Debug\List\functii_timer.s90</file>
+            <file>$TOOLKIT_DIR$\inc\dlib\c\xencoding_limits.h</file>
+            <file>$TOOLKIT_DIR$\inc\dlib\c\DLib_Threads.h</file>
+            <file>$TOOLKIT_DIR$\lib\dlib\dlAVR-3s-ec_mul-n.h</file>
+            <file>$TOOLKIT_DIR$\inc\dlib\c\DLib_Product.h</file>
+            <file>$TOOLKIT_DIR$\inc\dlib\c\stdint.h</file>
+            <file>$TOOLKIT_DIR$\inc\dlib\c\DLib_Defaults.h</file>
+            <file>$PROJ_DIR$\Debug\List\functii_afisare.lst</file>
+            <file>$PROJ_DIR$\usart_my_lib.c</file>
+            <file>$PROJ_DIR$\usart_control.c</file>
+            <file>$PROJ_DIR$\state_machine.h</file>
+            <file>$PROJ_DIR$\usart_round_buff.c</file>
+            <file>$PROJ_DIR$\state_machine.c</file>
+            <file>$PROJ_DIR$\usart_round_buff.h</file>
+            <file>$PROJ_DIR$\usart_my_lib.h</file>
+            <file>$PROJ_DIR$\usart_control.h</file>
+            <file>$PROJ_DIR$\Debug\Obj\main.r90</file>
+            <file>$PROJ_DIR$\functii_adc.c</file>
+            <file>$PROJ_DIR$\functii_i2c.h</file>
+            <file>$PROJ_DIR$\functii_afisare.h</file>
+            <file>$PROJ_DIR$\Debug\Obj\main.xcl</file>
+            <file>$PROJ_DIR$\functii_timer.h</file>
+            <file>$PROJ_DIR$\functii_i2c.c</file>
+            <file>$PROJ_DIR$\Debug\Exe\atmega1280_i2c.d90</file>
+            <file>$PROJ_DIR$\functii_adc.h</file>
+            <file>$PROJ_DIR$\Debug\Obj\atmega1280_i2c.pbd</file>
+            <file>$PROJ_DIR$\functii_timer.c</file>
+            <file>$PROJ_DIR$\functii_afisare.c</file>
+            <file>$PROJ_DIR$\Debug\Obj\usart_my_lib.xcl</file>
+            <file>$PROJ_DIR$\Debug\Obj\usart_my_lib.r90</file>
+            <file>$PROJ_DIR$\Debug\Obj\usart_round_buff.r90</file>
+            <file>$PROJ_DIR$\Debug\Obj\usart_round_buff.xcl</file>
+            <file>$PROJ_DIR$\Debug\List\state_machine.lst</file>
+            <file>$PROJ_DIR$\Debug\Obj\state_machine.xcl</file>
+            <file>$PROJ_DIR$\Debug\Obj\state_machine.r90</file>
+            <file>$PROJ_DIR$\Debug\Obj\usart_control.r90</file>
+            <file>$PROJ_DIR$\Debug\Obj\usart_control.xcl</file>
+            <file>$PROJ_DIR$\Debug\List\functii_afisare.s90</file>
+            <file>$PROJ_DIR$\main.c</file>
+            <file>$PROJ_DIR$\Debug\List\main.s90</file>
+            <file>$PROJ_DIR$\Debug\List\main.lst</file>
+            <file>$PROJ_DIR$\Debug\Obj\main.__cstat.et</file>
+            <file>$TOOLKIT_DIR$\inc\dlib\c\stdbool.h</file>
+            <file>$TOOLKIT_DIR$\inc\dlib\c\ysizet.h</file>
+            <file>$PROJ_DIR$\Debug\List\usart_control.lst</file>
+            <file>$TOOLKIT_DIR$\inc\dlib\c\stddef.h</file>
+            <file>$TOOLKIT_DIR$\inc\iom1280.h</file>
+            <file>$TOOLKIT_DIR$\inc\iomacro.h</file>
+            <file>$TOOLKIT_DIR$\inc\intrinsics.h</file>
+            <file>$TOOLKIT_DIR$\inc\bitdefinitions\iom1280.inc</file>
+            <file>$TOOLKIT_DIR$\inc\ioavr.h</file>
+            <file>$TOOLKIT_DIR$\inc\inavr.h</file>
+            <file>$PROJ_DIR$\Debug\List\functii_adc.s90</file>
+            <file>$PROJ_DIR$\Debug\List\functii_adc.lst</file>
+            <file>$PROJ_DIR$\Debug\List\functii_i2c.lst</file>
+        </outputs>
+        <file>
+            <name>$PROJ_DIR$\usart_my_lib.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCAVR</name>
+                    <file> 13 12 51</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 50</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>ICCAVR</name>
+                    <file> 36 27 20 21 28 25 26 23 24 73 70 72 68 69 71 37 64 35 67 65</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\usart_control.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCAVR</name>
+                    <file> 14 66 57</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 58</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>ICCAVR</name>
+                    <file> 37 73 70 72 68 69 71 64 35 27 20 21 28 25 26 23 24 67 65</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\usart_round_buff.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCAVR</name>
+                    <file> 18 15 52</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 53</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>ICCAVR</name>
+                    <file> 35 27 20 21 28 25 26 23 24 67 65 73 70 72 68 69 71</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\state_machine.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCAVR</name>
+                    <file> 54</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 55</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>ICCAVR</name>
+                    <file> 32 27 20 21 28 25 26 23 24 46 64 40 73 70 41 36 72 68 69 71 37 35 67 65 43</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\functii_adc.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCAVR</name>
+                    <file> 74 75 10</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 9</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>ICCAVR</name>
+                    <file> 46 27 20 21 28 25 26 23 24 64 72 68 69 71</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\functii_i2c.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCAVR</name>
+                    <file> 16 76 8</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 4</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>ICCAVR</name>
+                    <file> 40 27 20 21 28 25 26 23 24 73 70 72 68 69 71</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\Debug\Exe\atmega1280_i2c.d90</name>
+            <outputs>
+                <tool>
+                    <name>XLINK</name>
+                    <file> 3</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>XLINK</name>
+                    <file> 1 2 10 5 8 6 38 57 51 52 0</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\functii_timer.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCAVR</name>
+                    <file> 22 19 6</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 11</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>ICCAVR</name>
+                    <file> 43 27 20 21 28 25 26 23 24 64 72 68 69 71 70</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\functii_afisare.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCAVR</name>
+                    <file> 59 29 5</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 7</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>ICCAVR</name>
+                    <file> 41 27 20 21 28 25 26 23 24 64 40 73 70 43</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\main.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCAVR</name>
+                    <file> 61 62 38</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 42</file>
+                </tool>
+                <tool>
+                    <name>__cstat</name>
+                    <file> 63</file>
+                </tool>
+            </outputs>
+            <inputs>
+                <tool>
+                    <name>ICCAVR</name>
+                    <file> 70 72 68 69 71 27 20 21 28 25 26 23 24 64 40 73 37 35 67 65 36 46 41 43</file>
+                </tool>
+            </inputs>
+        </file>
+        <file>
+            <name>[ROOT_NODE]</name>
+            <outputs>
+                <tool>
+                    <name>XLINK</name>
+                    <file> 45 3</file>
+                </tool>
+            </outputs>
+        </file>
+    </configuration>
+    <configuration>
+        <name>Release</name>
+        <outputs />
+        <forcedrebuild>
+            <name>[MULTI_TOOL]</name>
+            <tool>XLINK</tool>
+        </forcedrebuild>
+    </configuration>
+</project>

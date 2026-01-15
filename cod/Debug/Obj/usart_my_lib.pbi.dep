@@ -1,0 +1,22 @@
+usart_my_lib.pbi: \
+  C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\usart_my_lib.c \
+  C:\Users\vboxuser\Desktop\displayVoltageI2C\cod/usart_my_lib.h \
+  C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.4\avr\inc\dlib\c\stdint.h \
+  C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.4\avr\inc\dlib\c\ycheck.h \
+  C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.4\avr\inc\dlib\c\yvals.h \
+  C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.4\avr\inc\dlib\c\DLib_Defaults.h \
+  C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.4\avr\LIB\DLIB\dlAVR-3s-ec_mul-n.h \
+  C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.4\avr\inc\dlib\c\DLib_Product.h \
+  C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.4\avr\inc\dlib\c\xencoding_limits.h \
+  C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.4\avr\inc\dlib\c\DLib_Threads.h \
+  C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.4\avr\inc\inavr.h \
+  C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.4\avr\inc\intrinsics.h \
+  C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.4\avr\inc\ioavr.h \
+  C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.4\avr\inc/iom1280.h \
+  C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.4\avr\inc/iomacro.h \
+  C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.4\avr\inc/bitdefinitions/iom1280.inc \
+  C:\Users\vboxuser\Desktop\displayVoltageI2C\cod/usart_control.h \
+  C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.4\avr\inc\dlib\c\stdbool.h \
+  C:\Users\vboxuser\Desktop\displayVoltageI2C\cod/usart_round_buff.h \
+  C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.4\avr\inc\dlib\c\stddef.h \
+  C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.4\avr\inc\dlib\c\ysizet.h

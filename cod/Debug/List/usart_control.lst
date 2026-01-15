@@ -1,0 +1,415 @@
+###############################################################################
+#
+# IAR C/C++ Compiler V7.30.5.1680 for Microchip AVR       15/Jan/2026  22:51:52
+# Copyright 1996-2022 IAR Systems AB.
+#
+#    Source file  =  
+#        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\usart_control.c
+#    Command line =  
+#        -f C:\Users\vboxuser\AppData\Local\Temp\EWECB7.tmp
+#        (C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\usart_control.c
+#        --cpu=m1280 -ms -o
+#        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\Obj -lC
+#        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\List -lA
+#        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\List -y
+#        --initializers_in_flash --no_cse --no_inline --no_code_motion
+#        --no_cross_call --no_clustering --no_tbaa --debug
+#        -DENABLE_BIT_DEFINITIONS -e --eeprom_size 4096 --dlib --dlib_config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        8.4\avr\LIB\DLIB\dlAVR-3s-ec_mul-n.h" -On)
+#    Locale       =  English_USA.1252
+#    List file    =  
+#        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\List\usart_control.lst
+#    Object file  =  
+#        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\Obj\usart_control.r90
+#
+###############################################################################
+
+C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\usart_control.c
+      1          #include "usart_control.h"
+
+   \                                 In  segment ABSOLUTE, at 0xce
+   \   union <unnamed> volatile __io _A_UDR1
+   \                     _A_UDR1:
+   \   00000000                      DS8 1
+
+   \                                 In  segment ABSOLUTE, at 0xcc
+   \   union <unnamed> volatile __io _A_UBRR1
+   \                     _A_UBRR1:
+   \   00000000                      DS8 2
+
+   \                                 In  segment ABSOLUTE, at 0xc9
+   \   union <unnamed> volatile __io _A_UCSR1B
+   \                     _A_UCSR1B:
+   \   00000000                      DS8 1
+
+   \                                 In  segment ABSOLUTE, at 0xc8
+   \   union <unnamed> volatile __io _A_UCSR1A
+   \                     _A_UCSR1A:
+   \   00000000                      DS8 1
+      2          
+      3          /* Definirea macro-urilor pentru registrele USART1 */
+      4          #define SET_BAUD_H(BAUDRATE) UBRR1H = (uint8_t)(BAUDRATE >> 8)
+      5          #define SET_BAUD_L(BAUDRATE) UBRR1L = (uint8_t)(BAUDRATE & 0xFF)
+      6          
+      7          // Definirea stărilor interne pentru State Machine
+      8          typedef enum {
+      9              USART_STATE_IDLE,
+     10              USART_STATE_SENDING,
+     11              USART_STATE_COMPLETE
+     12          } usart_task_state_t;
+     13          
+
+   \                                 In  segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     14          static usart_task_state_t usart_state = USART_STATE_IDLE;
+   \                     usart_state:
+   \   00000000                      DS8 1
+     15          
+     16          // Bufferele circulare sunt declarate extern în .h, aici le instanțiem
+
+   \                                 In  segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     17          round_buff_s tx_buffer;
+   \                     tx_buffer:
+   \   00000000                      DS8 18
+
+   \                                 In  segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     18          round_buff_s rx_buffer;
+   \                     rx_buffer:
+   \   00000000                      DS8 18
+     19          
+
+   \                                 In  segment CODE, align 2, keep-with-next
+     20          void USART_initialize(uint16_t baud_rate) {
+   \                     USART_initialize:
+     21              // Resetare indecși buffere
+     22              tx_buffer.head = 0; tx_buffer.tail = 0;
+   \   00000000   E020               LDI     R18, 0
+   \   00000002   9320....           STS     (tx_buffer + 16), R18
+   \   00000006   E020               LDI     R18, 0
+   \   00000008   9320....           STS     (tx_buffer + 17), R18
+     23              rx_buffer.head = 0; rx_buffer.tail = 0;
+   \   0000000C   E020               LDI     R18, 0
+   \   0000000E   9320....           STS     (rx_buffer + 16), R18
+   \   00000012   E020               LDI     R18, 0
+   \   00000014   9320....           STS     (rx_buffer + 17), R18
+     24          
+     25              // Configurare Baud Rate folosind macro-urile de mai sus
+     26              SET_BAUD_H(baud_rate);
+   \   00000018   0198               MOVW    R19:R18, R17:R16
+   \   0000001A   2F23               MOV     R18, R19
+   \   0000001C   E030               LDI     R19, 0
+   \   0000001E   932000CD           STS     205, R18
+     27              SET_BAUD_L(baud_rate);
+   \   00000022   2F20               MOV     R18, R16
+   \   00000024   9320....           STS     _A_UBRR1, R18
+     28              
+     29              // Activare Transmițător, Receptor și întreruperi
+     30              // RXCIE1 - Intrerupere la recepție completă
+     31              // TXCIE1 - Intrerupere la transmisie completă (folosită pentru buffer circular)
+     32              UCSR1B = (1 << TXEN1) | (1 << RXEN1) | (1 << RXCIE1) | (1 << TXCIE1);
+   \   00000028   ED28               LDI     R18, 216
+   \   0000002A   9320....           STS     _A_UCSR1B, R18
+     33              
+     34              usart_state = USART_STATE_IDLE;
+   \   0000002E   E020               LDI     R18, 0
+   \   00000030   9320....           STS     usart_state, R18
+     35          }
+   \   00000034   9508               RET
+   \   00000036                      REQUIRE _A_UBRR1
+   \   00000036                      REQUIRE _A_UCSR1B
+     36          
+
+   \                                 In  segment CODE, align 2, keep-with-next
+     37          void USART_Task_Run(void) {
+   \                     USART_Task_Run:
+     38              switch (usart_state) {
+   \   00000000   9100....           LDS     R16, usart_state
+   \   00000004   5000               SUBI    R16, 0
+   \   00000006   F029               BREQ    ??USART_Task_Run_0
+   \   00000008   950A               DEC     R16
+   \   0000000A   F069               BREQ    ??USART_Task_Run_1
+   \   0000000C   950A               DEC     R16
+   \   0000000E   F0A9               BREQ    ??USART_Task_Run_2
+   \   00000010   9508               RET
+     39                  case USART_STATE_IDLE:
+     40                      // Dacă buffer-ul nu mai este gol, înseamnă că am început să trimitem ceva
+     41                      if (!is_empty(&tx_buffer)) {
+   \                     ??USART_Task_Run_0:
+   \   00000012   ....               LDI     R16, LOW(tx_buffer)
+   \   00000014   ....               LDI     R17, (tx_buffer) >> 8
+   \   00000016   ........           CALL    is_empty
+   \   0000001A   2B01               OR      R16, R17
+   \   0000001C   F489               BRNE    ??USART_Task_Run_3
+     42                          usart_state = USART_STATE_SENDING;
+   \   0000001E   E001               LDI     R16, 1
+   \   00000020   9300....           STS     usart_state, R16
+     43                      }
+     44                      break;
+   \   00000024   9508               RET
+     45          
+     46                  case USART_STATE_SENDING:
+     47                      // Dacă buffer-ul s-a golit, marcăm finalizarea
+     48                      if (is_empty(&tx_buffer)) {
+   \                     ??USART_Task_Run_1:
+   \   00000026   ....               LDI     R16, LOW(tx_buffer)
+   \   00000028   ....               LDI     R17, (tx_buffer) >> 8
+   \   0000002A   ........           CALL    is_empty
+   \   0000002E   2B01               OR      R16, R17
+   \   00000030   F039               BREQ    ??USART_Task_Run_3
+     49                          usart_state = USART_STATE_COMPLETE;
+   \   00000032   E002               LDI     R16, 2
+   \   00000034   9300....           STS     usart_state, R16
+     50                      }
+     51                      break;
+   \   00000038   9508               RET
+     52          
+     53                  case USART_STATE_COMPLETE:
+     54                      // Revenim în IDLE pentru a permite o nouă comandă de print
+     55                      usart_state = USART_STATE_IDLE;
+   \                     ??USART_Task_Run_2:
+   \   0000003A   E000               LDI     R16, 0
+   \   0000003C   9300....           STS     usart_state, R16
+     56                      break;
+     57              }
+     58          }
+   \                     ??USART_Task_Run_3:
+   \   00000040   9508               RET
+     59          
+
+   \                                 In  segment CODE, align 2, keep-with-next
+     60          bool USART_Is_Ready(void) {
+   \                     USART_Is_Ready:
+     61              return (usart_state == USART_STATE_IDLE);
+   \   00000000   9100....           LDS     R16, usart_state
+   \   00000004   2300               TST     R16
+   \   00000006   F411               BRNE    ??USART_Is_Ready_0
+   \   00000008   E001               LDI     R16, 1
+   \   0000000A   9508               RET
+   \                     ??USART_Is_Ready_0:
+   \   0000000C   E000               LDI     R16, 0
+   \   0000000E   9508               RET
+     62          }
+     63          
+
+   \                                 In  segment CODE, align 2, keep-with-next
+     64          uint16_t USART_transmit_string(uint8_t *s, int16_t length) {
+   \                     USART_transmit_string:
+   \   00000000   ........           CALL    ?PROLOGUE6_L09
+   \   00000004                      REQUIRE ?Register_R4_is_cg_reg
+   \   00000004                      REQUIRE ?Register_R5_is_cg_reg
+   \   00000004   0128               MOVW    R5:R4, R17:R16
+   \   00000006   01D9               MOVW    R27:R26, R19:R18
+     65              uint16_t res = push_vec(&tx_buffer, s, length);
+   \   00000008   01AD               MOVW    R21:R20, R27:R26
+   \   0000000A   0192               MOVW    R19:R18, R5:R4
+   \   0000000C   ....               LDI     R16, LOW(tx_buffer)
+   \   0000000E   ....               LDI     R17, (tx_buffer) >> 8
+   \   00000010   ........           CALL    push_vec
+   \   00000014   01C8               MOVW    R25:R24, R17:R16
+     66              
+     67              // Dacă transmițătorul este liber (UDRE1), forțăm trimiterea primului caracter 
+     68              // pentru a declanșa cascada de întreruperi TX
+     69              if (UCSR1A & (1 << UDRE1)) {
+   \   00000016   9100....           LDS     R16, _A_UCSR1A
+   \   0000001A   2F10               MOV     R17, R16
+   \   0000001C   FF15               SBRS    R17, 5
+   \   0000001E   C00C               RJMP    ??USART_transmit_string_0
+     70                  if (!is_empty(&tx_buffer)) {
+   \   00000020   ....               LDI     R16, LOW(tx_buffer)
+   \   00000022   ....               LDI     R17, (tx_buffer) >> 8
+   \   00000024   ........           CALL    is_empty
+   \   00000028   2B01               OR      R16, R17
+   \   0000002A   F431               BRNE    ??USART_transmit_string_0
+     71                      UDR1 = pop(&tx_buffer);
+   \   0000002C   ....               LDI     R16, LOW(tx_buffer)
+   \   0000002E   ....               LDI     R17, (tx_buffer) >> 8
+   \   00000030   ........           CALL    `pop`
+   \   00000034   9300....           STS     _A_UDR1, R16
+     72                  }
+     73              }
+     74              return res;
+   \                     ??USART_transmit_string_0:
+   \   00000038   018C               MOVW    R17:R16, R25:R24
+   \   0000003A   E0E6               LDI     R30, 6
+   \   0000003C   ........           JMP     ?EPILOGUE_B6_L09
+   \   00000040                      REQUIRE _A_UCSR1A
+   \   00000040                      REQUIRE _A_UDR1
+     75          }
+     76          
+     77          /* Întrerupere pentru Transmisie Completă */
+     78          #pragma vector = USART1_TX_vect
+
+   \                                 In  segment CODE, align 2, keep-with-next
+     79          __interrupt void USART1_TX_ISR(void) {
+   \                     USART1_TX_ISR:
+   \   00000000   939A               ST      -Y, R25
+   \   00000002   938A               ST      -Y, R24
+   \   00000004   93FA               ST      -Y, R31
+   \   00000006   93EA               ST      -Y, R30
+   \   00000008   923A               ST      -Y, R3
+   \   0000000A   922A               ST      -Y, R2
+   \   0000000C   921A               ST      -Y, R1
+   \   0000000E   920A               ST      -Y, R0
+   \   00000010   937A               ST      -Y, R23
+   \   00000012   936A               ST      -Y, R22
+   \   00000014   935A               ST      -Y, R21
+   \   00000016   934A               ST      -Y, R20
+   \   00000018   933A               ST      -Y, R19
+   \   0000001A   932A               ST      -Y, R18
+   \   0000001C   931A               ST      -Y, R17
+   \   0000001E   930A               ST      -Y, R16
+   \   00000020   B78F               IN      R24, 0x3F
+   \   00000022   B79B               IN      R25, 0x3B
+     80              if (!is_empty(&tx_buffer)) {
+   \   00000024   ....               LDI     R16, LOW(tx_buffer)
+   \   00000026   ....               LDI     R17, (tx_buffer) >> 8
+   \   00000028   ........           CALL    is_empty
+   \   0000002C   2B01               OR      R16, R17
+   \   0000002E   F431               BRNE    ??USART1_TX_ISR_0
+     81                  UDR1 = pop(&tx_buffer);
+   \   00000030   ....               LDI     R16, LOW(tx_buffer)
+   \   00000032   ....               LDI     R17, (tx_buffer) >> 8
+   \   00000034   ........           CALL    `pop`
+   \   00000038   9300....           STS     _A_UDR1, R16
+     82              }
+     83          }
+   \                     ??USART1_TX_ISR_0:
+   \   0000003C   BF9B               OUT     0x3B, R25
+   \   0000003E   BF8F               OUT     0x3F, R24
+   \   00000040   9109               LD      R16, Y+
+   \   00000042   9119               LD      R17, Y+
+   \   00000044   9129               LD      R18, Y+
+   \   00000046   9139               LD      R19, Y+
+   \   00000048   9149               LD      R20, Y+
+   \   0000004A   9159               LD      R21, Y+
+   \   0000004C   9169               LD      R22, Y+
+   \   0000004E   9179               LD      R23, Y+
+   \   00000050   9009               LD      R0, Y+
+   \   00000052   9019               LD      R1, Y+
+   \   00000054   9029               LD      R2, Y+
+   \   00000056   9039               LD      R3, Y+
+   \   00000058   91E9               LD      R30, Y+
+   \   0000005A   91F9               LD      R31, Y+
+   \   0000005C   9189               LD      R24, Y+
+   \   0000005E   9199               LD      R25, Y+
+   \   00000060   9518               RETI
+   \   00000062                      REQUIRE _A_UDR1
+     84          
+     85          /* Întrerupere pentru Recepție Completă (opțional, dar bun pentru stabilitate) */
+     86          #pragma vector = USART1_RX_vect
+
+   \                                 In  segment CODE, align 2, keep-with-next
+     87          __interrupt void USART1_RX_ISR(void) {
+   \                     USART1_RX_ISR:
+   \   00000000   93AA               ST      -Y, R26
+   \   00000002   939A               ST      -Y, R25
+   \   00000004   938A               ST      -Y, R24
+   \   00000006   93FA               ST      -Y, R31
+   \   00000008   93EA               ST      -Y, R30
+   \   0000000A   923A               ST      -Y, R3
+   \   0000000C   922A               ST      -Y, R2
+   \   0000000E   921A               ST      -Y, R1
+   \   00000010   920A               ST      -Y, R0
+   \   00000012   937A               ST      -Y, R23
+   \   00000014   936A               ST      -Y, R22
+   \   00000016   935A               ST      -Y, R21
+   \   00000018   934A               ST      -Y, R20
+   \   0000001A   933A               ST      -Y, R19
+   \   0000001C   932A               ST      -Y, R18
+   \   0000001E   931A               ST      -Y, R17
+   \   00000020   930A               ST      -Y, R16
+   \   00000022   B79F               IN      R25, 0x3F
+   \   00000024   B7AB               IN      R26, 0x3B
+     88              uint8_t data = UDR1;
+   \   00000026   9180....           LDS     R24, _A_UDR1
+     89              push(&rx_buffer, data);
+   \   0000002A   2F28               MOV     R18, R24
+   \   0000002C   ....               LDI     R16, LOW(rx_buffer)
+   \   0000002E   ....               LDI     R17, (rx_buffer) >> 8
+   \   00000030   ........           CALL    `push`
+     90          }
+   \   00000034   BFAB               OUT     0x3B, R26
+   \   00000036   BF9F               OUT     0x3F, R25
+   \   00000038   9109               LD      R16, Y+
+   \   0000003A   9119               LD      R17, Y+
+   \   0000003C   9129               LD      R18, Y+
+   \   0000003E   9139               LD      R19, Y+
+   \   00000040   9149               LD      R20, Y+
+   \   00000042   9159               LD      R21, Y+
+   \   00000044   9169               LD      R22, Y+
+   \   00000046   9179               LD      R23, Y+
+   \   00000048   9009               LD      R0, Y+
+   \   0000004A   9019               LD      R1, Y+
+   \   0000004C   9029               LD      R2, Y+
+   \   0000004E   9039               LD      R3, Y+
+   \   00000050   91E9               LD      R30, Y+
+   \   00000052   91F9               LD      R31, Y+
+   \   00000054   9189               LD      R24, Y+
+   \   00000056   9199               LD      R25, Y+
+   \   00000058   91A9               LD      R26, Y+
+   \   0000005A   9518               RETI
+   \   0000005C                      REQUIRE _A_UDR1
+
+   \                                 In  segment INTVEC, offset 0x90, root
+   \                     `??USART1_RX_ISR::??INTVEC 144`:
+   \   00000090   ........           JMP     USART1_RX_ISR
+
+   \                                 In  segment INTVEC, offset 0x98, root
+   \                     `??USART1_TX_ISR::??INTVEC 152`:
+   \   00000098   ........           JMP     USART1_TX_ISR
+
+   Maximum stack usage in bytes:
+
+   CSTACK RSTACK Function
+   ------ ------ --------
+     17      2   USART1_RX_ISR
+       17      2   -> push
+     16      2   USART1_TX_ISR
+       16      2   -> is_empty
+       16      2   -> pop
+      0      2   USART_Is_Ready
+      0      2   USART_Task_Run
+        0      2   -> is_empty
+      0      2   USART_initialize
+      6      2   USART_transmit_string
+        6      2   -> is_empty
+        6      2   -> pop
+        6      2   -> push_vec
+
+
+   Segment part sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+      92  USART1_RX_ISR
+       4  USART1_RX_ISR::??INTVEC 144
+      98  USART1_TX_ISR
+       4  USART1_TX_ISR::??INTVEC 152
+      16  USART_Is_Ready
+      66  USART_Task_Run
+      54  USART_initialize
+      64  USART_transmit_string
+       2  _A_UBRR1
+       1  _A_UCSR1A
+       1  _A_UCSR1B
+       1  _A_UDR1
+      18  rx_buffer
+      18  tx_buffer
+       1  usart_state
+       7  -- Other
+
+ 
+   5 bytes in segment ABSOLUTE
+ 390 bytes in segment CODE
+   7 bytes in segment INITTAB
+   8 bytes in segment INTVEC
+  37 bytes in segment NEAR_Z
+ 
+ 390 bytes of CODE memory (+ 15 bytes shared)
+  37 bytes of DATA memory (+  5 bytes shared)
+
+Errors: none
+Warnings: none

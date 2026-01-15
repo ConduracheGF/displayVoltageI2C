@@ -1,0 +1,367 @@
+###############################################################################
+#
+# IAR C/C++ Compiler V7.30.5.1680 for Microchip AVR       15/Jan/2026  22:36:26
+# Copyright 1996-2022 IAR Systems AB.
+#
+#    Source file  =  
+#        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\functii_adc.c
+#    Command line =  
+#        -f C:\Users\vboxuser\AppData\Local\Temp\EWDB57.tmp
+#        (C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\functii_adc.c
+#        --cpu=m1280 -ms -o
+#        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\Obj -lC
+#        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\List -lA
+#        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\List -y
+#        --initializers_in_flash --no_cse --no_inline --no_code_motion
+#        --no_cross_call --no_clustering --no_tbaa --debug
+#        -DENABLE_BIT_DEFINITIONS -e --eeprom_size 4096 --dlib --dlib_config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        8.4\avr\LIB\DLIB\dlAVR-3s-ec_mul-n.h" -On)
+#    Locale       =  English_USA.1252
+#    List file    =  
+#        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\List\functii_adc.lst
+#    Object file  =  
+#        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\Obj\functii_adc.r90
+#
+###############################################################################
+
+C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\functii_adc.c
+      1          #include "functii_adc.h"
+      2          #include <ioavr.h>
+
+   \                                 In  segment ABSOLUTE, at 0x7c
+   \   union <unnamed> volatile __io _A_ADMUX
+   \                     _A_ADMUX:
+   \   00000000                      DS8 1
+
+   \                                 In  segment ABSOLUTE, at 0x7a
+   \   union <unnamed> volatile __io _A_ADCSRA
+   \                     _A_ADCSRA:
+   \   00000000                      DS8 1
+
+   \                                 In  segment ABSOLUTE, at 0x78
+   \   union <unnamed> volatile __io _A_ADC
+   \                     _A_ADC:
+   \   00000000                      DS8 2
+      3          
+      4          typedef enum {
+      5            ADC_REPAUS,
+      6            ADC_CONVERT,
+      7            ADC_READY
+      8          } adc_state_t;
+      9          
+
+   \                                 In  segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     10          static adc_state_t adc_state = ADC_REPAUS;
+   \                     adc_state:
+   \   00000000                      DS8 1
+
+   \                                 In  segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     11          static uint16_t tensiune_raw = 0;
+   \                     tensiune_raw:
+   \   00000000                      DS8 2
+
+   \                                 In  segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     12          static uint16_t tensiune_filtrata = 0;
+   \                     tensiune_filtrata:
+   \   00000000                      DS8 2
+
+   \                                 In  segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     13          static bool data_ready_flag = false;
+   \                     data_ready_flag:
+   \   00000000                      DS8 1
+     14          
+
+   \                                 In  segment CODE, align 2, keep-with-next
+     15          void ADC_Init(void){
+   \                     ADC_Init:
+     16            ADMUX = (1 << REFS0);   
+   \   00000000   E400               LDI     R16, 64
+   \   00000002   9300....           STS     _A_ADMUX, R16
+     17            ADCSRA = (1 << ADEN) | (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0);
+   \   00000006   E807               LDI     R16, 135
+   \   00000008   9300....           STS     _A_ADCSRA, R16
+     18          }
+   \   0000000C   9508               RET
+   \   0000000E                      REQUIRE _A_ADMUX
+   \   0000000E                      REQUIRE _A_ADCSRA
+     19          
+
+   \                                 In  segment CODE, align 2, keep-with-next
+     20          uint16_t ADC_Get_Result(void){
+   \                     ADC_Get_Result:
+     21              uint16_t val = ADCL;
+   \   00000000   9100....           LDS     R16, _A_ADC
+   \   00000004   E010               LDI     R17, 0
+     22              val |= (ADCH << 8);
+   \   00000006   91300079           LDS     R19, 121
+   \   0000000A   E020               LDI     R18, 0
+   \   0000000C   2B02               OR      R16, R18
+   \   0000000E   2B13               OR      R17, R19
+     23              return val;
+   \   00000010   9508               RET
+   \   00000012                      REQUIRE _A_ADC
+     24          }
+     25          
+     26          // Functie interna pentru filtrare (FIR)
+
+   \                                 In  segment CODE, align 2, keep-with-next
+     27          static void fir_filter_process(uint16_t raw_val) {
+   \                     fir_filter_process:
+   \   00000000   ........           CALL    ?PROLOGUE4_L09
+   \   00000004   01C8               MOVW    R25:R24, R17:R16
+     28              static uint32_t buffer_fir[8] = {0};
+     29              static uint8_t idx = 0;
+     30              
+     31              buffer_fir[idx] = raw_val;
+   \   00000006   E0A0               LDI     R26, 0
+   \   00000008   E0B0               LDI     R27, 0
+   \   0000000A   9100....           LDS     R16, ??idx
+   \   0000000E   E010               LDI     R17, 0
+   \   00000010   0F00               LSL     R16
+   \   00000012   1F11               ROL     R17
+   \   00000014   0F00               LSL     R16
+   \   00000016   1F11               ROL     R17
+   \   00000018   01F8               MOVW    R31:R30, R17:R16
+   \   0000001A   ....               SUBI    R30, LOW((-(??buffer_fir) & 0xFFFF))
+   \   0000001C   ....               SBCI    R31, (-(??buffer_fir) & 0xFFFF) >> 8
+   \   0000001E   8380               ST      Z, R24
+   \   00000020   8391               STD     Z+1, R25
+   \   00000022   83A2               STD     Z+2, R26
+   \   00000024   83B3               STD     Z+3, R27
+     32              idx = (idx + 1) % 8;
+   \   00000026   9100....           LDS     R16, ??idx
+   \   0000002A   E010               LDI     R17, 0
+   \   0000002C   5F0F               SUBI    R16, 255
+   \   0000002E   4F1F               SBCI    R17, 255
+   \   00000030   E048               LDI     R20, 8
+   \   00000032   E050               LDI     R21, 0
+   \   00000034   ........           CALL    ?SS_DIVMOD_L02
+   \   00000038   9340....           STS     ??idx, R20
+     33              
+     34              uint32_t suma = 0;
+   \   0000003C   2400               CLR     R0
+   \   0000003E   2411               CLR     R1
+   \   00000040   2422               CLR     R2
+   \   00000042   2433               CLR     R3
+     35              for(uint8_t i=0; i<8; i++) suma += buffer_fir[i];
+   \   00000044   E000               LDI     R16, 0
+   \                     ??fir_filter_process_0:
+   \   00000046   3008               CPI     R16, 8
+   \   00000048   F498               BRCC    ??fir_filter_process_1
+   \   0000004A   2F20               MOV     R18, R16
+   \   0000004C   E030               LDI     R19, 0
+   \   0000004E   0F22               LSL     R18
+   \   00000050   1F33               ROL     R19
+   \   00000052   0F22               LSL     R18
+   \   00000054   1F33               ROL     R19
+   \   00000056   01F9               MOVW    R31:R30, R19:R18
+   \   00000058   ....               SUBI    R30, LOW((-(??buffer_fir) & 0xFFFF))
+   \   0000005A   ....               SBCI    R31, (-(??buffer_fir) & 0xFFFF) >> 8
+   \   0000005C   8140               LD      R20, Z
+   \   0000005E   8151               LDD     R21, Z+1
+   \   00000060   8162               LDD     R22, Z+2
+   \   00000062   8173               LDD     R23, Z+3
+   \   00000064   0E04               ADD     R0, R20
+   \   00000066   1E15               ADC     R1, R21
+   \   00000068   1E26               ADC     R2, R22
+   \   0000006A   1E37               ADC     R3, R23
+   \   0000006C   9503               INC     R16
+   \   0000006E   CFEB               RJMP    ??fir_filter_process_0
+     36              
+     37              tensiune_filtrata = suma / 8;
+   \                     ??fir_filter_process_1:
+   \   00000070   E043               LDI     R20, 3
+   \   00000072   0180               MOVW    R17:R16, R1:R0
+   \   00000074   0191               MOVW    R19:R18, R3:R2
+   \   00000076   ........           CALL    ?UL_SHR_L03
+   \   0000007A   ....               LDI     R30, LOW(tensiune_filtrata)
+   \   0000007C   ....               LDI     R31, (tensiune_filtrata) >> 8
+   \   0000007E   8300               ST      Z, R16
+   \   00000080   8311               STD     Z+1, R17
+     38              data_ready_flag = true;
+   \   00000082   E001               LDI     R16, 1
+   \   00000084   9300....           STS     data_ready_flag, R16
+     39          }
+   \   00000088   E0E4               LDI     R30, 4
+   \   0000008A   ........           JMP     ?EPILOGUE_B4_L09
+
+   \                                 In  segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+   \                     ??buffer_fir:
+   \   00000000                      DS8 32
+
+   \                                 In  segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+   \                     ??idx:
+   \   00000000                      DS8 1
+     40          
+
+   \                                 In  segment CODE, align 2, keep-with-next
+     41          void ADC_Task_Run(void) {
+   \                     ADC_Task_Run:
+     42              switch (adc_state) {
+   \   00000000   9100....           LDS     R16, adc_state
+   \   00000004   5000               SUBI    R16, 0
+   \   00000006   F029               BREQ    ??ADC_Task_Run_0
+   \   00000008   950A               DEC     R16
+   \   0000000A   F081               BREQ    ??ADC_Task_Run_1
+   \   0000000C   950A               DEC     R16
+   \   0000000E   F0B9               BREQ    ??ADC_Task_Run_2
+   \   00000010   9508               RET
+     43                  case ADC_REPAUS:
+     44                      // Pornim o noua conversie doar daca flag-ul a fost consumat
+     45                      if (!data_ready_flag) {
+   \                     ??ADC_Task_Run_0:
+   \   00000012   9100....           LDS     R16, data_ready_flag
+   \   00000016   2300               TST     R16
+   \   00000018   F569               BRNE    ??ADC_Task_Run_3
+     46                          ADCSRA |= (1 << ADSC);
+   \   0000001A   9100007A           LDS     R16, 122
+   \   0000001E   6400               ORI     R16, 0x40
+   \   00000020   9300007A           STS     122, R16
+     47                          adc_state = ADC_CONVERT;
+   \   00000024   E001               LDI     R16, 1
+   \   00000026   9300....           STS     adc_state, R16
+     48                      }
+     49                      break;
+   \   0000002A   9508               RET
+     50                      
+     51                  case ADC_CONVERT:
+     52                      if (!(ADCSRA & (1 << ADSC))) {
+   \                     ??ADC_Task_Run_1:
+   \   0000002C   9100....           LDS     R16, _A_ADCSRA
+   \   00000030   2F10               MOV     R17, R16
+   \   00000032   FD16               SBRC    R17, 6
+   \   00000034   C01F               RJMP    ??ADC_Task_Run_3
+     53                          adc_state = ADC_READY;
+   \   00000036   E002               LDI     R16, 2
+   \   00000038   9300....           STS     adc_state, R16
+     54                      }
+     55                      break;
+   \   0000003C   9508               RET
+     56                      
+     57                  case ADC_READY:
+     58                      tensiune_raw = (uint32_t)ADC_Get_Result() * 5000UL / 1023UL;
+   \                     ??ADC_Task_Run_2:
+   \   0000003E   ....               RCALL   ADC_Get_Result
+   \   00000040   E020               LDI     R18, 0
+   \   00000042   E030               LDI     R19, 0
+   \   00000044   E848               LDI     R20, 136
+   \   00000046   E153               LDI     R21, 19
+   \   00000048   E060               LDI     R22, 0
+   \   0000004A   E070               LDI     R23, 0
+   \   0000004C   ........           CALL    ?L_EC_MUL_L03
+   \   00000050   EF4F               LDI     R20, 255
+   \   00000052   E053               LDI     R21, 3
+   \   00000054   E060               LDI     R22, 0
+   \   00000056   E070               LDI     R23, 0
+   \   00000058   ........           CALL    ?UL_DIVMOD_L03
+   \   0000005C   ....               LDI     R30, LOW(tensiune_raw)
+   \   0000005E   ....               LDI     R31, (tensiune_raw) >> 8
+   \   00000060   8300               ST      Z, R16
+   \   00000062   8311               STD     Z+1, R17
+     59                      // Dupa ce avem valoarea raw, o trecem prin filtru
+     60                      fir_filter_process(tensiune_raw);
+   \   00000064   ....               LDI     R30, LOW(tensiune_raw)
+   \   00000066   ....               LDI     R31, (tensiune_raw) >> 8
+   \   00000068   8100               LD      R16, Z
+   \   0000006A   8111               LDD     R17, Z+1
+   \   0000006C   ....               RCALL   fir_filter_process
+     61                      adc_state = ADC_REPAUS;
+   \   0000006E   E000               LDI     R16, 0
+   \   00000070   9300....           STS     adc_state, R16
+     62                      break;
+     63              }
+     64          }
+   \                     ??ADC_Task_Run_3:
+   \   00000074   9508               RET
+   \   00000076                      REQUIRE _A_ADCSRA
+     65          
+
+   \                                 In  segment CODE, align 2, keep-with-next
+     66          bool ADC_Is_Data_Ready(void) {
+   \                     ADC_Is_Data_Ready:
+     67              if (data_ready_flag) {
+   \   00000000   9100....           LDS     R16, data_ready_flag
+   \   00000004   2300               TST     R16
+   \   00000006   F029               BREQ    ??ADC_Is_Data_Ready_0
+     68                  data_ready_flag = false; // Resetam flagul la citire
+   \   00000008   E000               LDI     R16, 0
+   \   0000000A   9300....           STS     data_ready_flag, R16
+     69                  return true;
+   \   0000000E   E001               LDI     R16, 1
+   \   00000010   9508               RET
+     70              }
+     71              return false;
+   \                     ??ADC_Is_Data_Ready_0:
+   \   00000012   E000               LDI     R16, 0
+   \   00000014   9508               RET
+     72          }
+     73          
+
+   \                                 In  segment CODE, align 2, keep-with-next
+     74          uint16_t ADC_Get_Filtered_Value(void) {
+   \                     ADC_Get_Filtered_Value:
+     75              return tensiune_filtrata;
+   \   00000000   ....               LDI     R30, LOW(tensiune_filtrata)
+   \   00000002   ....               LDI     R31, (tensiune_filtrata) >> 8
+   \   00000004   8100               LD      R16, Z
+   \   00000006   8111               LDD     R17, Z+1
+   \   00000008   9508               RET
+     76          }
+
+   Maximum stack usage in bytes:
+
+   CSTACK RSTACK Function
+   ------ ------ --------
+      0      2   ADC_Get_Filtered_Value
+      0      2   ADC_Get_Result
+      0      2   ADC_Init
+      0      2   ADC_Is_Data_Ready
+      0      2   ADC_Task_Run
+        0      2   -> ADC_Get_Result
+        0      2   -> fir_filter_process
+        0      2 ?L_EC_MUL_L03
+        0      2 ?UL_DIVMOD_L03
+      4      2   fir_filter_process
+        4      2 ?SS_DIVMOD_L02
+        4      2 ?UL_SHR_L03
+
+
+   Segment part sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+      10  ADC_Get_Filtered_Value
+      18  ADC_Get_Result
+      14  ADC_Init
+      22  ADC_Is_Data_Ready
+     118  ADC_Task_Run
+       2  _A_ADC
+       1  _A_ADCSRA
+       1  _A_ADMUX
+       1  adc_state
+      32  buffer_fir
+       1  data_ready_flag
+     142  fir_filter_process
+       1  idx
+       2  tensiune_filtrata
+       2  tensiune_raw
+       7  -- Other
+
+ 
+   4 bytes in segment ABSOLUTE
+ 324 bytes in segment CODE
+   7 bytes in segment INITTAB
+  39 bytes in segment NEAR_Z
+ 
+ 324 bytes of CODE memory (+ 7 bytes shared)
+  39 bytes of DATA memory (+ 4 bytes shared)
+
+Errors: none
+Warnings: none

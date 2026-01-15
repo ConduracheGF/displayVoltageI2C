@@ -1,0 +1,617 @@
+///////////////////////////////////////////////////////////////////////////////
+//
+// IAR C/C++ Compiler V7.30.5.1680 for Microchip AVR      15/Jan/2026  22:36:27
+// Copyright 1996-2022 IAR Systems AB.
+//
+//    Source file  =  
+//        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\functii_timer.c
+//    Command line =  
+//        -f C:\Users\vboxuser\AppData\Local\Temp\EWDCB0.tmp
+//        (C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\functii_timer.c
+//        --cpu=m1280 -ms -o
+//        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\Obj -lC
+//        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\List -lA
+//        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\List -y
+//        --initializers_in_flash --no_cse --no_inline --no_code_motion
+//        --no_cross_call --no_clustering --no_tbaa --debug
+//        -DENABLE_BIT_DEFINITIONS -e --eeprom_size 4096 --dlib --dlib_config
+//        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+//        8.4\avr\LIB\DLIB\dlAVR-3s-ec_mul-n.h" -On)
+//    Locale       =  English_USA.1252
+//    List file    =  
+//        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\List\functii_timer.s90
+//
+///////////////////////////////////////////////////////////////////////////////
+
+        NAME functii_timer
+
+        RTMODEL "__64bit_doubles", "disabled"
+        RTMODEL "__SystemLibrary", "DLib"
+        RTMODEL "__cpu", "3"
+        RTMODEL "__cpu_name", "ATmega1280"
+        RTMODEL "__enhanced_core", "enabled"
+        RTMODEL "__has_elpm", "true"
+        RTMODEL "__memory_model", "2"
+        RTMODEL "__no_rampd", "enabled"
+        RTMODEL "__rt_version", "3"
+        RTMODEL "__vtable_memory", "__nearflash"
+
+        RSEG CSTACK:DATA:NOROOT(0)
+        RSEG RSTACK:DATA:NOROOT(0)
+
+        EXTERN ?need_segment_init
+
+        PUBWEAK `?<Segment init: NEAR_Z>`
+        PUBWEAK `??TIMER0_ISR::??INTVEC 84`
+        PUBLIC TIMER0_ISR
+        PUBLIC Timer0_Init
+        PUBLIC Timer_Check_20ms
+        PUBWEAK _A_OCR0A
+        PUBWEAK _A_TCCR0A
+        PUBWEAK _A_TCCR0B
+        PUBWEAK _A_TIMSK0
+        PUBWEAK __?EEARH
+        PUBWEAK __?EEARL
+        PUBWEAK __?EECR
+        PUBWEAK __?EEDR
+        PUBLIC delay_microsecunde
+        PUBLIC delay_milisecunde
+        PUBLIC delay_secunde
+        PUBLIC ms_ticks
+        
+          CFI Names cfiNames0
+          CFI StackFrame CFA_Y Y DATA
+          CFI StackFrame CFA_SP SP DATA
+          CFI VirtualResource ?RetPad:1, ?RetHigh:8, ?RetLow:8, ?Ret:17
+          CFI Resource R0:8, R1:8, R2:8, R3:8, R4:8, R5:8, R6:8, R7:8, R8:8, R9:8
+          CFI Resource R10:8, R11:8, R12:8, R13:8, R14:8, R15:8, R16:8, R17:8
+          CFI Resource R18:8, R19:8, R20:8, R21:8, R22:8, R23:8, R24:8, R25:8
+          CFI Resource R26:8, R27:8, R28:8, R29:8, R30:8, R31:8
+          CFI Resource ?RetHighByteMask:8, SP:16, SPH:8, SPL:8, Y:16
+          CFI ResourceParts ?Ret ?RetHigh, ?RetLow, ?RetPad
+          CFI ResourceParts SP SPH, SPL
+          CFI ResourceParts Y R29, R28
+          CFI EndNames cfiNames0
+        
+          CFI Common cfiCommon0 Using cfiNames0
+          CFI CodeAlign 1
+          CFI DataAlign 1
+          CFI ReturnAddress ?Ret CODE
+          CFI CFA_Y Y+0
+          CFI CFA_SP SP+2
+          CFI ?RetPad 0
+          CFI ?RetHigh and(load(1, DATA, sub(CFA_SP, 1)), ?RetHighByteMask)
+          CFI ?RetLow Frame(CFA_SP, 0)
+          CFI ?Ret Concat
+          CFI R0 Undefined
+          CFI R1 Undefined
+          CFI R2 Undefined
+          CFI R3 Undefined
+          CFI R4 SameValue
+          CFI R5 SameValue
+          CFI R6 SameValue
+          CFI R7 SameValue
+          CFI R8 SameValue
+          CFI R9 SameValue
+          CFI R10 SameValue
+          CFI R11 SameValue
+          CFI R12 SameValue
+          CFI R13 SameValue
+          CFI R14 SameValue
+          CFI R15 SameValue
+          CFI R16 Undefined
+          CFI R17 Undefined
+          CFI R18 Undefined
+          CFI R19 Undefined
+          CFI R20 Undefined
+          CFI R21 Undefined
+          CFI R22 Undefined
+          CFI R23 Undefined
+          CFI R24 SameValue
+          CFI R25 SameValue
+          CFI R26 SameValue
+          CFI R27 SameValue
+          CFI R28 Undefined
+          CFI R29 Undefined
+          CFI R30 Undefined
+          CFI R31 Undefined
+          CFI ?RetHighByteMask SameValue
+          CFI SPH Undefined
+          CFI SPL Undefined
+          CFI EndCommon cfiCommon0
+        
+        
+          CFI Common cfiCommon1 Using cfiNames0
+          CFI CodeAlign 1
+          CFI DataAlign 1
+          CFI ReturnAddress ?Ret CODE
+          CFI CFA_Y Y+0
+          CFI CFA_SP SP+2
+          CFI ?RetPad 0
+          CFI ?RetHigh and(load(1, DATA, sub(CFA_SP, 1)), ?RetHighByteMask)
+          CFI ?RetLow Frame(CFA_SP, 0)
+          CFI ?Ret Concat
+          CFI R0 SameValue
+          CFI R1 SameValue
+          CFI R2 SameValue
+          CFI R3 SameValue
+          CFI R4 SameValue
+          CFI R5 SameValue
+          CFI R6 SameValue
+          CFI R7 SameValue
+          CFI R8 SameValue
+          CFI R9 SameValue
+          CFI R10 SameValue
+          CFI R11 SameValue
+          CFI R12 SameValue
+          CFI R13 SameValue
+          CFI R14 SameValue
+          CFI R15 SameValue
+          CFI R16 SameValue
+          CFI R17 SameValue
+          CFI R18 SameValue
+          CFI R19 SameValue
+          CFI R20 SameValue
+          CFI R21 SameValue
+          CFI R22 SameValue
+          CFI R23 SameValue
+          CFI R24 SameValue
+          CFI R25 SameValue
+          CFI R26 SameValue
+          CFI R27 SameValue
+          CFI R28 Undefined
+          CFI R29 Undefined
+          CFI R30 SameValue
+          CFI R31 SameValue
+          CFI ?RetHighByteMask SameValue
+          CFI SPH Undefined
+          CFI SPL Undefined
+          CFI EndCommon cfiCommon1
+        
+TIMER0_ISR          SYMBOL "TIMER0_ISR"
+`??TIMER0_ISR::??INTVEC 84` SYMBOL "??INTVEC 84", TIMER0_ISR
+
+// C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\functii_timer.c
+//    1 #include "functii_timer.h"
+//    2 #include <ioavr.h>
+
+        ASEGN ABSOLUTE:DATA:NOROOT,06eH
+// union <unnamed> volatile __io _A_TIMSK0
+_A_TIMSK0:
+        DS8 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,047H
+// union <unnamed> volatile __io _A_OCR0A
+_A_OCR0A:
+        DS8 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,045H
+// union <unnamed> volatile __io _A_TCCR0B
+_A_TCCR0B:
+        DS8 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,044H
+// union <unnamed> volatile __io _A_TCCR0A
+_A_TCCR0A:
+        DS8 1
+//    3 #include "functii_timer.h"
+//    4 #include <ioavr.h>
+//    5 #include <intrinsics.h>
+//    6 
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//    7 volatile uint16_t ms_ticks = 0;
+ms_ticks:
+        DS8 2
+//    8 
+//    9 typedef enum {
+//   10     TIMER_COUNTER,
+//   11     TIMER_WAIT,
+//   12     TIMER_EXPIRED
+//   13 } timer_state_t;
+//   14 
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//   15 static timer_state_t timer_state = TIMER_COUNTER;
+timer_state:
+        DS8 1
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//   16 static uint16_t start_time = 0;
+start_time:
+        DS8 2
+//   17 
+
+        RSEG `CODE`:CODE:NOROOT(1)
+//   18 void Timer0_Init(void) {
+Timer0_Init:
+          CFI Block cfiBlock0 Using cfiCommon0
+          CFI Function Timer0_Init
+          CFI NoCalls
+        CODE
+//   19     TCCR0A = (1 << WGM01); // CTC
+        LDI     R16, 2
+        OUT     0x24, R16
+//   20     TCCR0B = (1 << CS01) | (1 << CS00); // Prescaler 64
+        LDI     R16, 3
+        OUT     0x25, R16
+//   21     OCR0A = 249; // 1ms la 16MHz
+        LDI     R16, 249
+        OUT     0x27, R16
+//   22     TIMSK0 |= (1 << OCIE0A); 
+        LDS     R16, 110
+        ORI     R16, 0x02
+        STS     110, R16
+//   23 }
+        RET
+          CFI EndBlock cfiBlock0
+        REQUIRE _A_TCCR0A
+        REQUIRE _A_TCCR0B
+        REQUIRE _A_OCR0A
+        REQUIRE _A_TIMSK0
+//   24 
+//   25 #pragma vector = TIMER0_COMPA_vect
+
+        RSEG `CODE`:CODE:NOROOT(1)
+        CALL_GRAPH_ROOT TIMER0_ISR, "interrupt"
+//   26 __interrupt void TIMER0_ISR(void) {
+TIMER0_ISR:
+          CFI Block cfiBlock1 Using cfiCommon1
+          CFI Function TIMER0_ISR
+          CFI NoCalls
+        CODE
+        ST      -Y, R31
+          CFI R31 Frame(CFA_Y, -1)
+          CFI CFA_Y Y+1
+        ST      -Y, R30
+          CFI R30 Frame(CFA_Y, -2)
+          CFI CFA_Y Y+2
+        ST      -Y, R19
+          CFI R19 Frame(CFA_Y, -3)
+          CFI CFA_Y Y+3
+        ST      -Y, R18
+          CFI R18 Frame(CFA_Y, -4)
+          CFI CFA_Y Y+4
+        ST      -Y, R17
+          CFI R17 Frame(CFA_Y, -5)
+          CFI CFA_Y Y+5
+        ST      -Y, R16
+          CFI R16 Frame(CFA_Y, -6)
+          CFI CFA_Y Y+6
+        IN      R18, 0x3F
+        IN      R19, 0x3B
+//   27     ms_ticks++;
+        LDI     R30, LOW(ms_ticks)
+        LDI     R31, (ms_ticks) >> 8
+        LD      R16, Z
+        LDD     R17, Z+1
+        SUBI    R16, 255
+        SBCI    R17, 255
+        ST      Z, R16
+        STD     Z+1, R17
+//   28 }
+        OUT     0x3B, R19
+        OUT     0x3F, R18
+        LD      R16, Y+
+          CFI R16 SameValue
+          CFI CFA_Y Y+5
+        LD      R17, Y+
+          CFI R17 SameValue
+          CFI CFA_Y Y+4
+        LD      R18, Y+
+          CFI R18 SameValue
+          CFI CFA_Y Y+3
+        LD      R19, Y+
+          CFI R19 SameValue
+          CFI CFA_Y Y+2
+        LD      R30, Y+
+          CFI R30 SameValue
+          CFI CFA_Y Y+1
+        LD      R31, Y+
+          CFI R31 SameValue
+          CFI CFA_Y Y+0
+        RETI
+          CFI EndBlock cfiBlock1
+//   29 
+//   30 // Aceasta functie gestioneaza masina de stari a timer-ului
+
+        RSEG `CODE`:CODE:NOROOT(1)
+//   31 bool Timer_Check_20ms(void) {
+Timer_Check_20ms:
+          CFI Block cfiBlock2 Using cfiCommon0
+          CFI Function Timer_Check_20ms
+          CFI NoCalls
+        CODE
+        MOVW    R21:R20, R27:R26
+//   32     bool ready = false;
+        LDI     R16, 0
+//   33     
+//   34     switch (timer_state) {
+        LDS     R17, timer_state
+        SUBI    R17, 0
+        BREQ    ??Timer_Check_20ms_0
+        DEC     R17
+        BREQ    ??Timer_Check_20ms_1
+        DEC     R17
+        BREQ    ??Timer_Check_20ms_2
+        RJMP    ??Timer_Check_20ms_3
+//   35         case TIMER_COUNTER:
+//   36             start_time = ms_ticks;
+??Timer_Check_20ms_0:
+        LDI     R30, LOW(ms_ticks)
+        LDI     R31, (ms_ticks) >> 8
+        LD      R18, Z
+        LDD     R19, Z+1
+        LDI     R30, LOW(start_time)
+        LDI     R31, (start_time) >> 8
+        ST      Z, R18
+        STD     Z+1, R19
+//   37             timer_state = TIMER_WAIT;
+        LDI     R17, 1
+        STS     timer_state, R17
+//   38             break;
+        RJMP    ??Timer_Check_20ms_3
+//   39 
+//   40         case TIMER_WAIT:
+//   41             if ((uint16_t)(ms_ticks - start_time) >= 20) {
+??Timer_Check_20ms_1:
+        LDI     R26, LOW(ms_ticks)
+        LDI     R27, (ms_ticks) >> 8
+        LD      R30, X+
+        LD      R31, X
+        SBIW    R27:R26, 1
+        LDI     R26, LOW(start_time)
+        LDI     R27, (start_time) >> 8
+        LD      R18, X+
+        LD      R19, X
+        SBIW    R27:R26, 1
+        SUB     R30, R18
+        SBC     R31, R19
+        SBIW    R31:R30, 20
+        BRCS    ??Timer_Check_20ms_3
+//   42                 timer_state = TIMER_EXPIRED;
+        LDI     R17, 2
+        STS     timer_state, R17
+//   43             }
+//   44             break;
+        RJMP    ??Timer_Check_20ms_3
+//   45 
+//   46         case TIMER_EXPIRED:
+//   47             ready = true;
+??Timer_Check_20ms_2:
+        LDI     R16, 1
+//   48             timer_state = TIMER_COUNTER; // Resetam automat pentru urmatorul ciclu
+        LDI     R17, 0
+        STS     timer_state, R17
+//   49             break;
+//   50     }
+//   51     return ready;
+??Timer_Check_20ms_3:
+        MOVW    R27:R26, R21:R20
+          CFI R26 R20
+        RET
+//   52 }
+          CFI EndBlock cfiBlock2
+//   53 
+
+        RSEG `CODE`:CODE:NOROOT(1)
+//   54 void delay_secunde(uint16_t time){
+delay_secunde:
+          CFI Block cfiBlock3 Using cfiCommon0
+          CFI Function delay_secunde
+          CFI NoCalls
+        CODE
+        SBIW    R29:R28, 4
+          CFI CFA_Y Y+4
+//   55     volatile uint32_t i;
+//   56     while (time--) {
+??delay_secunde_0:
+        MOVW    R19:R18, R17:R16
+        MOVW    R17:R16, R19:R18
+        SUBI    R16, 1
+        SBCI    R17, 0
+        OR      R18, R19
+        BREQ    ??delay_secunde_1
+//   57         i = 0;
+        LDI     R20, 0
+        LDI     R21, 0
+        LDI     R22, 0
+        LDI     R23, 0
+        ST      Y, R20
+        STD     Y+1, R21
+        STD     Y+2, R22
+        STD     Y+3, R23
+//   58         while (i < 2000000UL) i++;
+??delay_secunde_2:
+        LD      R20, Y
+        LDD     R21, Y+1
+        LDD     R22, Y+2
+        LDD     R23, Y+3
+        CPI     R20, 128
+        LDI     R18, 132
+        CPC     R21, R18
+        LDI     R18, 30
+        CPC     R22, R18
+        LDI     R18, 0
+        CPC     R23, R18
+        BRCC    ??delay_secunde_0
+        LD      R20, Y
+        LDD     R21, Y+1
+        LDD     R22, Y+2
+        LDD     R23, Y+3
+        SUBI    R20, 255
+        SBCI    R21, 255
+        SBCI    R22, 255
+        SBCI    R23, 255
+        ST      Y, R20
+        STD     Y+1, R21
+        STD     Y+2, R22
+        STD     Y+3, R23
+        RJMP    ??delay_secunde_2
+//   59     }
+//   60 }
+??delay_secunde_1:
+        ADIW    R29:R28, 4
+          CFI CFA_Y Y+0
+        RET
+          CFI EndBlock cfiBlock3
+//   61 
+
+        RSEG `CODE`:CODE:NOROOT(1)
+//   62 void delay_milisecunde(uint32_t time){
+delay_milisecunde:
+          CFI Block cfiBlock4 Using cfiCommon0
+          CFI Function delay_milisecunde
+          CFI NoCalls
+        CODE
+        SBIW    R29:R28, 4
+          CFI CFA_Y Y+4
+//   63     volatile uint32_t i;
+//   64     while (time--) {
+??delay_milisecunde_0:
+        MOVW    R21:R20, R17:R16
+        MOVW    R23:R22, R19:R18
+        MOVW    R17:R16, R21:R20
+        MOVW    R19:R18, R23:R22
+        SUBI    R16, 1
+        SBCI    R17, 0
+        SBCI    R18, 0
+        SBCI    R19, 0
+        OR      R20, R21
+        OR      R20, R22
+        OR      R20, R23
+        BREQ    ??delay_milisecunde_1
+//   65         i = 0;
+        LDI     R20, 0
+        LDI     R21, 0
+        LDI     R22, 0
+        LDI     R23, 0
+        ST      Y, R20
+        STD     Y+1, R21
+        STD     Y+2, R22
+        STD     Y+3, R23
+//   66         while (i < 2000UL) i++;
+??delay_milisecunde_2:
+        LD      R20, Y
+        LDD     R21, Y+1
+        LDD     R22, Y+2
+        LDD     R23, Y+3
+        CPI     R20, 208
+        LDI     R30, 7
+        CPC     R21, R30
+        LDI     R30, 0
+        CPC     R22, R30
+        LDI     R30, 0
+        CPC     R23, R30
+        BRCC    ??delay_milisecunde_0
+        LD      R20, Y
+        LDD     R21, Y+1
+        LDD     R22, Y+2
+        LDD     R23, Y+3
+        SUBI    R20, 255
+        SBCI    R21, 255
+        SBCI    R22, 255
+        SBCI    R23, 255
+        ST      Y, R20
+        STD     Y+1, R21
+        STD     Y+2, R22
+        STD     Y+3, R23
+        RJMP    ??delay_milisecunde_2
+//   67     }
+//   68 }
+??delay_milisecunde_1:
+        ADIW    R29:R28, 4
+          CFI CFA_Y Y+0
+        RET
+          CFI EndBlock cfiBlock4
+//   69 
+
+        RSEG `CODE`:CODE:NOROOT(1)
+//   70 void delay_microsecunde(uint16_t time){
+delay_microsecunde:
+          CFI Block cfiBlock5 Using cfiCommon0
+          CFI Function delay_microsecunde
+          CFI NoCalls
+        CODE
+        MOVW    R21:R20, R25:R24
+        SBIW    R29:R28, 2
+          CFI CFA_Y Y+2
+//   71     volatile uint16_t i;
+//   72     while (time--) {
+??delay_microsecunde_0:
+        MOVW    R19:R18, R17:R16
+        MOVW    R17:R16, R19:R18
+        SUBI    R16, 1
+        SBCI    R17, 0
+        OR      R18, R19
+        BREQ    ??delay_microsecunde_1
+//   73         i = 0;
+        LDI     R18, 0
+        LDI     R19, 0
+        ST      Y, R18
+        STD     Y+1, R19
+//   74         while (i < 2) i++;
+??delay_microsecunde_2:
+        LD      R24, Y
+        LDD     R25, Y+1
+        SBIW    R25:R24, 2
+        BRCC    ??delay_microsecunde_0
+        LD      R18, Y
+        LDD     R19, Y+1
+        SUBI    R18, 255
+        SBCI    R19, 255
+        ST      Y, R18
+        STD     Y+1, R19
+        RJMP    ??delay_microsecunde_2
+//   75     }
+//   76 }
+??delay_microsecunde_1:
+        ADIW    R29:R28, 2
+          CFI CFA_Y Y+0
+        MOVW    R25:R24, R21:R20
+          CFI R24 R20
+        RET
+          CFI EndBlock cfiBlock5
+
+        ASEGN ABSOLUTE:DATA:NOROOT,01fH
+__?EECR:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,020H
+__?EEDR:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,021H
+__?EEARL:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,022H
+__?EEARH:
+
+        COMMON INTVEC:CODE:ROOT(1)
+        ORG 84
+`??TIMER0_ISR::??INTVEC 84`:
+        CODE
+        JMP     TIMER0_ISR
+
+        RSEG INITTAB:CODE:NOROOT(0)
+        DATA
+`?<Segment init: NEAR_Z>`:
+        DC16    SFE(NEAR_Z) - SFB(NEAR_Z)
+        DC16    SFB(NEAR_Z)
+        DP      0
+        REQUIRE ?need_segment_init
+
+        END
+// 
+//   4 bytes in segment ABSOLUTE
+// 400 bytes in segment CODE
+//   7 bytes in segment INITTAB
+//   4 bytes in segment INTVEC
+//   5 bytes in segment NEAR_Z
+// 
+// 400 bytes of CODE memory (+ 11 bytes shared)
+//   5 bytes of DATA memory (+  4 bytes shared)
+//
+//Errors: none
+//Warnings: none
