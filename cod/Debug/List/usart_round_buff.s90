@@ -1,25 +1,27 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
-// IAR C/C++ Compiler V7.30.5.1680 for Microchip AVR      15/Jan/2026  22:09:07
+// IAR C/C++ Compiler V7.30.5.1680 for Microchip AVR      16/Jan/2026  17:06:00
 // Copyright 1996-2022 IAR Systems AB.
 //
 //    Source file  =  
-//        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\usart_round_buff.c
+//        C:\Users\student.DESKTOP-NIC452T\Downloads\displayVoltageI2C\displayVoltageI2C\cod\usart_round_buff.c
 //    Command line =  
-//        -f C:\Users\vboxuser\AppData\Local\Temp\EWCCBB.tmp
-//        (C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\usart_round_buff.c
+//        -f C:\Users\STUDEN~1.DES\AppData\Local\Temp\EW88B4.tmp
+//        (C:\Users\student.DESKTOP-NIC452T\Downloads\displayVoltageI2C\displayVoltageI2C\cod\usart_round_buff.c
 //        --cpu=m1280 -ms -o
-//        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\Obj -lC
-//        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\List -lA
-//        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\List -y
-//        --initializers_in_flash --no_cse --no_inline --no_code_motion
+//        C:\Users\student.DESKTOP-NIC452T\Downloads\displayVoltageI2C\displayVoltageI2C\cod\Debug\Obj
+//        -lC
+//        C:\Users\student.DESKTOP-NIC452T\Downloads\displayVoltageI2C\displayVoltageI2C\cod\Debug\List
+//        -lA
+//        C:\Users\student.DESKTOP-NIC452T\Downloads\displayVoltageI2C\displayVoltageI2C\cod\Debug\List
+//        -y --initializers_in_flash --no_cse --no_inline --no_code_motion
 //        --no_cross_call --no_clustering --no_tbaa --debug
 //        -DENABLE_BIT_DEFINITIONS -e --eeprom_size 4096 --dlib --dlib_config
 //        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
 //        8.4\avr\LIB\DLIB\dlAVR-3s-ec_mul-n.h" -On)
-//    Locale       =  English_USA.1252
+//    Locale       =  English_GBR.1252
 //    List file    =  
-//        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\List\usart_round_buff.s90
+//        C:\Users\student.DESKTOP-NIC452T\Downloads\displayVoltageI2C\displayVoltageI2C\cod\Debug\List\usart_round_buff.s90
 //
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -120,7 +122,7 @@
           CFI SPL Undefined
           CFI EndCommon cfiCommon0
         
-// C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\usart_round_buff.c
+// C:\Users\student.DESKTOP-NIC452T\Downloads\displayVoltageI2C\displayVoltageI2C\cod\usart_round_buff.c
 //    1 #include "usart_round_buff.h"
 //    2 
 //    3 // Funcție folosită pentru adăugarea unui caracter în bufferul circular
@@ -137,44 +139,50 @@
           CFI R25 Frame(CFA_Y, -3)
           CFI R24 Frame(CFA_Y, -4)
           CFI CFA_Y Y+4
-        MOVW    R27:R26, R17:R16
-        MOV     R24, R18
+        MOVW    R25:R24, R17:R16
+        MOV     R26, R18
 //    5   /*
 //    6   * Se calculează poziția următoare a indicelui head folosind operația
 //    7   * modulo pentru comportament circular.
 //    8   */
 //    9   uint8_t next_head = (inBuffer->head + 1) % BUFFER_SIZE;
-        MOVW    R31:R30, R27:R26
-        LDD     R16, Z+16
+        MOVW    R31:R30, R25:R24
+        SUBI    R30, 192
+        SBCI    R31, 255
+        LD      R16, Z
         LDI     R17, 0
         SUBI    R16, 255
         SBCI    R17, 255
-        LDI     R20, 16
+        LDI     R20, 64
         LDI     R21, 0
           CFI FunCall ?SS_DIVMOD_L02
         CALL    ?SS_DIVMOD_L02
-        MOV     R25, R20
+        MOV     R27, R20
 //   10   /*
 //   11   * Dacă bufferul nu este plin, se inserează caracterul și
 //   12   * se actualizează indicele head.
 //   13   */
 //   14   if (!is_full(inBuffer)) {
-        MOVW    R17:R16, R27:R26
+        MOVW    R17:R16, R25:R24
           CFI FunCall is_full
         RCALL   is_full
         OR      R16, R17
         BRNE    ??push_0
 //   15     inBuffer->buffer[inBuffer->head] = data;
-        MOVW    R31:R30, R27:R26
-        LDD     R16, Z+16
+        MOVW    R31:R30, R25:R24
+        SUBI    R30, 192
+        SBCI    R31, 255
+        LD      R16, Z
         LDI     R17, 0
-        MOVW    R31:R30, R27:R26
+        MOVW    R31:R30, R25:R24
         ADD     R30, R16
         ADC     R31, R17
-        ST      Z, R24
+        ST      Z, R26
 //   16     inBuffer->head = next_head;
-        MOVW    R31:R30, R27:R26
-        STD     Z+16, R25
+        MOVW    R31:R30, R25:R24
+        SUBI    R30, 192
+        SBCI    R31, 255
+        ST      Z, R27
 //   17     // Returnează 1 pentru succes
 //   18     return 1;
         LDI     R16, 1
@@ -200,43 +208,49 @@
           CFI Block cfiBlock1 Using cfiCommon0
           CFI Function `pop`
         CODE
-        ST      -Y, R27
-          CFI R27 Frame(CFA_Y, -1)
+        ST      -Y, R25
+          CFI R25 Frame(CFA_Y, -1)
           CFI CFA_Y Y+1
-        ST      -Y, R26
-          CFI R26 Frame(CFA_Y, -2)
+        ST      -Y, R24
+          CFI R24 Frame(CFA_Y, -2)
           CFI CFA_Y Y+2
-        MOVW    R27:R26, R17:R16
+        MOVW    R25:R24, R17:R16
 //   26   /*
 //   27   * Dacă bufferul nu este gol, se preia caracterul din poziția tail
 //   28   * și se actualizează indicele tail pentru comportament circular.
 //   29   */
 //   30   if (!is_empty(inBuffer)) {
-        MOVW    R17:R16, R27:R26
+        MOVW    R17:R16, R25:R24
           CFI FunCall is_empty
         RCALL   is_empty
         OR      R16, R17
         BRNE    ??pop_0
 //   31     uint8_t data = inBuffer->buffer[inBuffer->tail];
-        MOVW    R31:R30, R27:R26
-        LDD     R16, Z+17
+        MOVW    R31:R30, R25:R24
+        SUBI    R30, 191
+        SBCI    R31, 255
+        LD      R16, Z
         LDI     R17, 0
-        MOVW    R31:R30, R27:R26
+        MOVW    R31:R30, R25:R24
         ADD     R30, R16
         ADC     R31, R17
         LD      R18, Z
 //   32     inBuffer->tail = (inBuffer->tail + 1) % BUFFER_SIZE;
-        MOVW    R31:R30, R27:R26
-        LDD     R16, Z+17
+        MOVW    R31:R30, R25:R24
+        SUBI    R30, 191
+        SBCI    R31, 255
+        LD      R16, Z
         LDI     R17, 0
         SUBI    R16, 255
         SBCI    R17, 255
-        LDI     R20, 16
+        LDI     R20, 64
         LDI     R21, 0
           CFI FunCall ?SS_DIVMOD_L02
         CALL    ?SS_DIVMOD_L02
-        MOVW    R31:R30, R27:R26
-        STD     Z+17, R20
+        MOVW    R31:R30, R25:R24
+        SUBI    R30, 191
+        SBCI    R31, 255
+        ST      Z, R20
 //   33     // Returnează caracterul extras
 //   34     return data;
         MOV     R16, R18
@@ -247,11 +261,11 @@
 ??pop_0:
         LDI     R16, 0
 ??pop_1:
-        LD      R26, Y+
-          CFI R26 SameValue
+        LD      R24, Y+
+          CFI R24 SameValue
           CFI CFA_Y Y+1
-        LD      R27, Y+
-          CFI R27 SameValue
+        LD      R25, Y+
+          CFI R25 SameValue
           CFI CFA_Y Y+0
         RET
 //   38   }
@@ -331,9 +345,13 @@ is_empty:
         CODE
 //   60   return (inBuffer->head == inBuffer->tail);
         MOVW    R31:R30, R17:R16
-        LDD     R18, Z+16
+        SUBI    R30, 192
+        SBCI    R31, 255
+        LD      R18, Z
+        SUBI    R16, 191
+        SBCI    R17, 255
         MOVW    R31:R30, R17:R16
-        LDD     R16, Z+17
+        LD      R16, Z
         CP      R18, R16
         BRNE    ??is_empty_0
         LDI     R16, 1
@@ -354,23 +372,23 @@ is_full:
           CFI Block cfiBlock4 Using cfiCommon0
           CFI Function is_full
         CODE
-        MOV     R19, R27
-        MOV     R22, R26
-        MOVW    R27:R26, R17:R16
+        MOVW    R19:R18, R17:R16
 //   65   return ((inBuffer->head + 1) % BUFFER_SIZE) == inBuffer->tail;
-        ADIW    R27:R26, 16
-        LD      R16, X
-        SBIW    R27:R26, 16
+        MOVW    R31:R30, R19:R18
+        SUBI    R30, 192
+        SBCI    R31, 255
+        LD      R16, Z
         LDI     R17, 0
         SUBI    R16, 255
         SBCI    R17, 255
-        LDI     R20, 16
+        LDI     R20, 64
         LDI     R21, 0
           CFI FunCall ?SS_DIVMOD_L02
         CALL    ?SS_DIVMOD_L02
-        ADIW    R27:R26, 17
-        LD      R16, X
-        SBIW    R27:R26, 17
+        SUBI    R18, 191
+        SBCI    R19, 255
+        MOVW    R31:R30, R19:R18
+        LD      R16, Z
         LDI     R17, 0
         CP      R20, R16
         CPC     R21, R17
@@ -381,10 +399,6 @@ is_full:
         LDI     R16, 0
 ??is_full_1:
         LDI     R17, 0
-        MOV     R26, R22
-          CFI R26 R22
-        MOV     R27, R19
-          CFI R27 R19
         RET
 //   66 }
           CFI EndBlock cfiBlock4
@@ -403,9 +417,9 @@ __?EEARH:
 
         END
 // 
-// 256 bytes in segment CODE
+// 284 bytes in segment CODE
 // 
-// 256 bytes of CODE memory
+// 284 bytes of CODE memory
 //
 //Errors: none
 //Warnings: none

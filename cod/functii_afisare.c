@@ -13,14 +13,13 @@ static send_status_t send_i2c(uint8_t addr_dummy, uint8_t reg, uint8_t val) {
     uint8_t data[2];
     data[0] = reg;
     data[1] = val;
-    uint8_t i2c_addr = 0x00; 
 
     while(i2c_is_busy());
-    if(i2c_write_transaction(i2c_addr, data, 2) != I2C_STATUS_SUCCESS) return SEND_NOT_SUCCESSFUL;
+    if(i2c_write_transaction(addr_dummy, data, 2) != I2C_STATUS_SUCCESS) return SEND_NOT_SUCCESSFUL;
     while(i2c_is_busy());
     
-    if(i2c_get_last_status() == I2C_STATUS_SUCCESS) return SEND_SUCCESSFUL;
-    return SEND_NOT_SUCCESSFUL;
+    if(i2c_get_last_status() != I2C_STATUS_SUCCESS) return SEND_NOT_SUCCESSFUL;
+    return SEND_SUCCESSFUL;
 }
 
 send_status_t setup_7_segm(){
@@ -34,6 +33,7 @@ send_status_t setup_7_segm(){
 static send_status_t afisare(int cifra[]) {
     for (int i = 0; i < 4; i++) {
       if(send_i2c(0x00, i + 1, cifra[3-i]) != SEND_SUCCESSFUL) return SEND_NOT_SUCCESSFUL;
+      delay_milisecunde(50);
     }
     return SEND_SUCCESSFUL;
 }
@@ -63,7 +63,6 @@ void Display_Task_Run(uint16_t valoare_tensiune) {
             if (afisare_tensiune(valoare_tensiune) != SEND_SUCCESSFUL) {
                 driver_state = DRIVER_NEEDS_INIT;
             }
-            // Mecanism simplu de safety (re-init periodic)
             if (++safety_counter >= 100) driver_state = DRIVER_NEEDS_INIT;
             break;
     }

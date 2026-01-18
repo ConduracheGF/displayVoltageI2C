@@ -728,7 +728,7 @@
                 </option>
                 <option>
                     <name>OutputFile</name>
-                    <state>atmega1280_i2c.d90</state>
+                    <state>displayVoltageI2C.d90</state>
                 </option>
                 <option>
                     <name>OutputFormat</name>
@@ -910,7 +910,7 @@
                 </option>
                 <option>
                     <name>ExtraOutputFile</name>
-                    <state>atmega1280_i2c.a90</state>
+                    <state>displayVoltageI2C.a90</state>
                 </option>
                 <option>
                     <name>ExtraOutputFormat</name>

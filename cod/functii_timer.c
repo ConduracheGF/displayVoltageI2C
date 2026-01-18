@@ -28,7 +28,7 @@ __interrupt void TIMER0_ISR(void) {
 }
 
 // Aceasta functie gestioneaza masina de stari a timer-ului
-bool Timer_Check_20ms(void) {
+bool Timer_Check(void) {
     bool ready = false;
     
     switch (timer_state) {
@@ -38,7 +38,7 @@ bool Timer_Check_20ms(void) {
             break;
 
         case TIMER_WAIT:
-            if ((uint16_t)(ms_ticks - start_time) >= 20) {
+            if ((uint16_t)(ms_ticks - start_time) >= 200) {
                 timer_state = TIMER_EXPIRED;
             }
             break;

@@ -1,4 +1,4 @@
-#Generating source browse information for project atmega1280_i2c
+#Generating source browse information for project displayVoltageI2C
 
 
 #Abbreviations
@@ -28,10 +28,10 @@ build main.pbi : index main.xcl
 build usart_control.pbi : index usart_control.xcl
 build usart_my_lib.pbi : index usart_my_lib.xcl
 build usart_round_buff.pbi : index usart_round_buff.xcl
-build atmega1280_i2c_part0.pbi : link functii_adc.pbi functii_afisare.pbi functii_i2c.pbi
-build atmega1280_i2c_part1.pbi : link functii_timer.pbi main.pbi usart_control.pbi
-build atmega1280_i2c_part2.pbi : link usart_my_lib.pbi usart_round_buff.pbi
-build atmega1280_i2c.pbd : link atmega1280_i2c_part0.pbi atmega1280_i2c_part1.pbi atmega1280_i2c_part2.pbi
-build atmega1280_i2c.pbw : browsedata atmega1280_i2c.pbd
+build displayVoltageI2C_part0.pbi : link functii_adc.pbi functii_afisare.pbi functii_i2c.pbi
+build displayVoltageI2C_part1.pbi : link functii_timer.pbi main.pbi usart_control.pbi
+build displayVoltageI2C_part2.pbi : link usart_my_lib.pbi usart_round_buff.pbi
+build displayVoltageI2C.pbd : link displayVoltageI2C_part0.pbi displayVoltageI2C_part1.pbi displayVoltageI2C_part2.pbi
+build displayVoltageI2C.pbw : browsedata displayVoltageI2C.pbd
 
 

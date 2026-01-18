@@ -1,25 +1,27 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
-// IAR C/C++ Compiler V7.30.5.1680 for Microchip AVR      15/Jan/2026  22:51:52
+// IAR C/C++ Compiler V7.30.5.1680 for Microchip AVR      16/Jan/2026  17:06:00
 // Copyright 1996-2022 IAR Systems AB.
 //
 //    Source file  =  
-//        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\usart_control.c
+//        C:\Users\student.DESKTOP-NIC452T\Downloads\displayVoltageI2C\displayVoltageI2C\cod\usart_control.c
 //    Command line =  
-//        -f C:\Users\vboxuser\AppData\Local\Temp\EWECB7.tmp
-//        (C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\usart_control.c
+//        -f C:\Users\STUDEN~1.DES\AppData\Local\Temp\EW88B3.tmp
+//        (C:\Users\student.DESKTOP-NIC452T\Downloads\displayVoltageI2C\displayVoltageI2C\cod\usart_control.c
 //        --cpu=m1280 -ms -o
-//        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\Obj -lC
-//        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\List -lA
-//        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\List -y
-//        --initializers_in_flash --no_cse --no_inline --no_code_motion
+//        C:\Users\student.DESKTOP-NIC452T\Downloads\displayVoltageI2C\displayVoltageI2C\cod\Debug\Obj
+//        -lC
+//        C:\Users\student.DESKTOP-NIC452T\Downloads\displayVoltageI2C\displayVoltageI2C\cod\Debug\List
+//        -lA
+//        C:\Users\student.DESKTOP-NIC452T\Downloads\displayVoltageI2C\displayVoltageI2C\cod\Debug\List
+//        -y --initializers_in_flash --no_cse --no_inline --no_code_motion
 //        --no_cross_call --no_clustering --no_tbaa --debug
 //        -DENABLE_BIT_DEFINITIONS -e --eeprom_size 4096 --dlib --dlib_config
 //        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
 //        8.4\avr\LIB\DLIB\dlAVR-3s-ec_mul-n.h" -On)
-//    Locale       =  English_USA.1252
+//    Locale       =  English_GBR.1252
 //    List file    =  
-//        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\List\usart_control.s90
+//        C:\Users\student.DESKTOP-NIC452T\Downloads\displayVoltageI2C\displayVoltageI2C\cod\Debug\List\usart_control.s90
 //
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -184,7 +186,7 @@ USART1_TX_ISR       SYMBOL "USART1_TX_ISR"
         EXTERN `push`
         EXTERN push_vec
 
-// C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\usart_control.c
+// C:\Users\student.DESKTOP-NIC452T\Downloads\displayVoltageI2C\displayVoltageI2C\cod\usart_control.c
 //    1 #include "usart_control.h"
 
         ASEGN ABSOLUTE:DATA:NOROOT,0ceH
@@ -231,13 +233,13 @@ usart_state:
         REQUIRE `?<Segment init: NEAR_Z>`
 //   17 round_buff_s tx_buffer;
 tx_buffer:
-        DS8 18
+        DS8 66
 
         RSEG NEAR_Z:DATA:NOROOT(0)
         REQUIRE `?<Segment init: NEAR_Z>`
 //   18 round_buff_s rx_buffer;
 rx_buffer:
-        DS8 18
+        DS8 66
 //   19 
 
         RSEG `CODE`:CODE:NOROOT(1)
@@ -250,14 +252,14 @@ USART_initialize:
 //   21     // Resetare indecși buffere
 //   22     tx_buffer.head = 0; tx_buffer.tail = 0;
         LDI     R18, 0
-        STS     (tx_buffer + 16), R18
+        STS     (tx_buffer + 64), R18
         LDI     R18, 0
-        STS     (tx_buffer + 17), R18
+        STS     (tx_buffer + 65), R18
 //   23     rx_buffer.head = 0; rx_buffer.tail = 0;
         LDI     R18, 0
-        STS     (rx_buffer + 16), R18
+        STS     (rx_buffer + 64), R18
         LDI     R18, 0
-        STS     (rx_buffer + 17), R18
+        STS     (rx_buffer + 65), R18
 //   24 
 //   25     // Configurare Baud Rate folosind macro-urile de mai sus
 //   26     SET_BAUD_H(baud_rate);
@@ -725,10 +727,10 @@ __?EEARH:
 // 390 bytes in segment CODE
 //   7 bytes in segment INITTAB
 //   8 bytes in segment INTVEC
-//  37 bytes in segment NEAR_Z
+// 133 bytes in segment NEAR_Z
 // 
 // 390 bytes of CODE memory (+ 15 bytes shared)
-//  37 bytes of DATA memory (+  5 bytes shared)
+// 133 bytes of DATA memory (+  5 bytes shared)
 //
 //Errors: none
 //Warnings: none

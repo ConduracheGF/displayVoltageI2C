@@ -25,7 +25,7 @@ if not "%~1" == "" goto debugFile
 
 @echo on 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.4\common\bin\cspybat" -f "C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\settings\atmega1280_i2c.Debug.general.xcl" --backend -f "C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\settings\atmega1280_i2c.Debug.driver.xcl" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.4\common\bin\cspybat" -f "C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\settings\displayVoltageI2C.Debug.general.xcl" --backend -f "C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\settings\displayVoltageI2C.Debug.driver.xcl" 
 
 @echo off 
 goto end 
@@ -34,7 +34,7 @@ goto end
 
 @echo on 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.4\common\bin\cspybat" -f "C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\settings\atmega1280_i2c.Debug.general.xcl" "--debug_file=%~1" --backend -f "C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\settings\atmega1280_i2c.Debug.driver.xcl" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.4\common\bin\cspybat" -f "C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\settings\displayVoltageI2C.Debug.general.xcl" "--debug_file=%~1" --backend -f "C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\settings\displayVoltageI2C.Debug.driver.xcl" 
 
 @echo off 
 :end

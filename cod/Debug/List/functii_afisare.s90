@@ -1,25 +1,27 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
-// IAR C/C++ Compiler V7.30.5.1680 for Microchip AVR      15/Jan/2026  22:41:15
+// IAR C/C++ Compiler V7.30.5.1680 for Microchip AVR      18/Jan/2026  12:23:17
 // Copyright 1996-2022 IAR Systems AB.
 //
 //    Source file  =  
-//        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\functii_afisare.c
+//        C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\functii_afisare.c
 //    Command line =  
-//        -f C:\Users\vboxuser\AppData\Local\Temp\EWFD43.tmp
-//        (C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\functii_afisare.c
+//        -f C:\Users\student\AppData\Local\Temp\EWF747.tmp
+//        (C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\functii_afisare.c
 //        --cpu=m1280 -ms -o
-//        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\Obj -lC
-//        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\List -lA
-//        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\List -y
-//        --initializers_in_flash --no_cse --no_inline --no_code_motion
+//        C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\Debug\Obj
+//        -lC
+//        C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\Debug\List
+//        -lA
+//        C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\Debug\List
+//        -y --initializers_in_flash --no_cse --no_inline --no_code_motion
 //        --no_cross_call --no_clustering --no_tbaa --debug
 //        -DENABLE_BIT_DEFINITIONS -e --eeprom_size 4096 --dlib --dlib_config
 //        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
 //        8.4\avr\LIB\DLIB\dlAVR-3s-ec_mul-n.h" -On)
 //    Locale       =  English_USA.1252
 //    List file    =  
-//        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\List\functii_afisare.s90
+//        C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\Debug\List\functii_afisare.s90
 //
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -39,7 +41,9 @@
         RSEG CSTACK:DATA:NOROOT(0)
         RSEG RSTACK:DATA:NOROOT(0)
 
+        EXTERN ?EPILOGUE_B3_L09
         EXTERN ?EPILOGUE_B4_L09
+        EXTERN ?PROLOGUE3_L09
         EXTERN ?PROLOGUE4_L09
         EXTERN ?US_DIVMOD_L02
         EXTERN ?need_segment_init
@@ -115,11 +119,12 @@
           CFI SPL Undefined
           CFI EndCommon cfiCommon0
         
+        EXTERN delay_milisecunde
         EXTERN i2c_get_last_status
         EXTERN i2c_is_busy
         EXTERN i2c_write_transaction
 
-// C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\functii_afisare.c
+// C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\functii_afisare.c
 //    1 #include "functii_afisare.h"
 //    2 #include "functii_i2c.h"
 //    3 #include "functii_timer.h"
@@ -143,14 +148,13 @@ send_i2c:
           CFI Block cfiBlock0 Using cfiCommon0
           CFI Function send_i2c
         CODE
-        CALL    ?PROLOGUE4_L09
-          CFI R27 Frame(CFA_Y, -1)
-          CFI R26 Frame(CFA_Y, -2)
-          CFI R25 Frame(CFA_Y, -3)
-          CFI R24 Frame(CFA_Y, -4)
-          CFI CFA_Y Y+4
+        CALL    ?PROLOGUE3_L09
+          CFI R26 Frame(CFA_Y, -1)
+          CFI R25 Frame(CFA_Y, -2)
+          CFI R24 Frame(CFA_Y, -3)
+          CFI CFA_Y Y+3
         SBIW    R29:R28, 2
-          CFI CFA_Y Y+6
+          CFI CFA_Y Y+5
         MOV     R24, R16
         MOV     R25, R17
         MOV     R26, R18
@@ -159,58 +163,56 @@ send_i2c:
         ST      Y, R25
 //   15     data[1] = val;
         STD     Y+1, R26
-//   16     uint8_t i2c_addr = 0x00; 
-        LDI     R27, 0
-//   17 
-//   18     while(i2c_is_busy());
+//   16 
+//   17     while(i2c_is_busy());
 ??send_i2c_0:
           CFI FunCall i2c_is_busy
         CALL    i2c_is_busy
         TST     R16
         BRNE    ??send_i2c_0
-//   19     if(i2c_write_transaction(i2c_addr, data, 2) != I2C_STATUS_SUCCESS) return SEND_NOT_SUCCESSFUL;
+//   18     if(i2c_write_transaction(addr_dummy, data, 2) != I2C_STATUS_SUCCESS) return SEND_NOT_SUCCESSFUL;
         LDI     R17, 2
         MOVW    R19:R18, R29:R28
-        MOV     R16, R27
+        MOV     R16, R24
           CFI FunCall i2c_write_transaction
         CALL    i2c_write_transaction
         TST     R16
         BREQ    ??send_i2c_1
         LDI     R16, 1
         RJMP    ??send_i2c_2
-//   20     while(i2c_is_busy());
+//   19     while(i2c_is_busy());
 ??send_i2c_1:
           CFI FunCall i2c_is_busy
         CALL    i2c_is_busy
         TST     R16
         BRNE    ??send_i2c_1
-//   21     
-//   22     if(i2c_get_last_status() == I2C_STATUS_SUCCESS) return SEND_SUCCESSFUL;
+//   20     
+//   21     if(i2c_get_last_status() != I2C_STATUS_SUCCESS) return SEND_NOT_SUCCESSFUL;
           CFI FunCall i2c_get_last_status
         CALL    i2c_get_last_status
         TST     R16
-        BRNE    ??send_i2c_3
-        LDI     R16, 0
-        RJMP    ??send_i2c_2
-//   23     return SEND_NOT_SUCCESSFUL;
-??send_i2c_3:
+        BREQ    ??send_i2c_3
         LDI     R16, 1
+        RJMP    ??send_i2c_2
+//   22     return SEND_SUCCESSFUL;
+??send_i2c_3:
+        LDI     R16, 0
 ??send_i2c_2:
         ADIW    R29:R28, 2
-          CFI CFA_Y Y+4
-        LDI     R30, 4
-        JMP     ?EPILOGUE_B4_L09
-//   24 }
+          CFI CFA_Y Y+3
+        LDI     R30, 3
+        JMP     ?EPILOGUE_B3_L09
+//   23 }
           CFI EndBlock cfiBlock0
-//   25 
+//   24 
 
         RSEG `CODE`:CODE:NOROOT(1)
-//   26 send_status_t setup_7_segm(){
+//   25 send_status_t setup_7_segm(){
 setup_7_segm:
           CFI Block cfiBlock1 Using cfiCommon0
           CFI Function setup_7_segm
         CODE
-//   27   if(send_i2c(0x00, 0x09, 0xFF) != SEND_SUCCESSFUL) return SEND_NOT_SUCCESSFUL;
+//   26   if(send_i2c(0x00, 0x09, 0xFF) != SEND_SUCCESSFUL) return SEND_NOT_SUCCESSFUL;
         LDI     R18, 255
         LDI     R17, 9
         LDI     R16, 0
@@ -220,7 +222,7 @@ setup_7_segm:
         BREQ    ??setup_7_segm_0
         LDI     R16, 1
         RET
-//   28   if(send_i2c(0x00, 0x0A, 0x0F) != SEND_SUCCESSFUL) return SEND_NOT_SUCCESSFUL;
+//   27   if(send_i2c(0x00, 0x0A, 0x0F) != SEND_SUCCESSFUL) return SEND_NOT_SUCCESSFUL;
 ??setup_7_segm_0:
         LDI     R18, 15
         LDI     R17, 10
@@ -231,7 +233,7 @@ setup_7_segm:
         BREQ    ??setup_7_segm_1
         LDI     R16, 1
         RET
-//   29   if(send_i2c(0x00, 0x0B, 0x03) != SEND_SUCCESSFUL) return SEND_NOT_SUCCESSFUL;
+//   28   if(send_i2c(0x00, 0x0B, 0x03) != SEND_SUCCESSFUL) return SEND_NOT_SUCCESSFUL;
 ??setup_7_segm_1:
         LDI     R18, 3
         LDI     R17, 11
@@ -242,7 +244,7 @@ setup_7_segm:
         BREQ    ??setup_7_segm_2
         LDI     R16, 1
         RET
-//   30   if(send_i2c(0x00, 0x0C, 0x01) != SEND_SUCCESSFUL) return SEND_NOT_SUCCESSFUL;
+//   29   if(send_i2c(0x00, 0x0C, 0x01) != SEND_SUCCESSFUL) return SEND_NOT_SUCCESSFUL;
 ??setup_7_segm_2:
         LDI     R18, 1
         LDI     R17, 12
@@ -253,16 +255,16 @@ setup_7_segm:
         BREQ    ??setup_7_segm_3
         LDI     R16, 1
         RET
-//   31   return SEND_SUCCESSFUL;
+//   30   return SEND_SUCCESSFUL;
 ??setup_7_segm_3:
         LDI     R16, 0
         RET
-//   32 }
+//   31 }
           CFI EndBlock cfiBlock1
-//   33 
+//   32 
 
         RSEG `CODE`:CODE:NOROOT(1)
-//   34 static send_status_t afisare(int cifra[]) {
+//   33 static send_status_t afisare(int cifra[]) {
 afisare:
           CFI Block cfiBlock2 Using cfiCommon0
           CFI Function afisare
@@ -274,7 +276,7 @@ afisare:
           CFI R24 Frame(CFA_Y, -4)
           CFI CFA_Y Y+4
         MOVW    R27:R26, R17:R16
-//   35     for (int i = 0; i < 4; i++) {
+//   34     for (int i = 0; i < 4; i++) {
         LDI     R24, 0
         LDI     R25, 0
 ??afisare_0:
@@ -282,7 +284,7 @@ afisare:
         LDI     R16, 0
         CPC     R25, R16
         BRGE    ??afisare_1
-//   36       if(send_i2c(0x00, i + 1, cifra[3-i]) != SEND_SUCCESSFUL) return SEND_NOT_SUCCESSFUL;
+//   35       if(send_i2c(0x00, i + 1, cifra[3-i]) != SEND_SUCCESSFUL) return SEND_NOT_SUCCESSFUL;
         MOVW    R17:R16, R25:R24
         NEG     R17
         NEG     R16
@@ -303,8 +305,15 @@ afisare:
         BREQ    ??afisare_2
         LDI     R16, 1
         RJMP    ??afisare_3
-//   37     }
+//   36       delay_milisecunde(50);
 ??afisare_2:
+        LDI     R16, 50
+        LDI     R17, 0
+        LDI     R18, 0
+        LDI     R19, 0
+          CFI FunCall delay_milisecunde
+        CALL    delay_milisecunde
+//   37     }
         ADIW    R25:R24, 1
         RJMP    ??afisare_0
 //   38     return SEND_SUCCESSFUL;
@@ -462,8 +471,7 @@ Display_Task_Run:
         LDI     R16, 0
         STS     driver_state, R16
 //   65             }
-//   66             // Mecanism simplu de safety (re-init periodic)
-//   67             if (++safety_counter >= 100) driver_state = DRIVER_NEEDS_INIT;
+//   66             if (++safety_counter >= 100) driver_state = DRIVER_NEEDS_INIT;
 ??Display_Task_Run_3:
         LDI     R30, LOW(??safety_counter)
         LDI     R31, (??safety_counter) >> 8
@@ -483,9 +491,9 @@ Display_Task_Run:
         BRCS    ??Display_Task_Run_2
         LDI     R16, 0
         STS     driver_state, R16
-//   68             break;
-//   69     }
-//   70 }
+//   67             break;
+//   68     }
+//   69 }
 ??Display_Task_Run_2:
         LD      R24, Y+
           CFI R24 SameValue
@@ -500,16 +508,16 @@ Display_Task_Run:
         REQUIRE `?<Segment init: NEAR_Z>`
 ??safety_counter:
         DS8 2
-//   71 
+//   70 
 
         RSEG `CODE`:CODE:NOROOT(1)
-//   72 bool Display_Is_Error(void) {
+//   71 bool Display_Is_Error(void) {
 Display_Is_Error:
           CFI Block cfiBlock5 Using cfiCommon0
           CFI Function Display_Is_Error
           CFI NoCalls
         CODE
-//   73     return (driver_state == DRIVER_NEEDS_INIT);
+//   72     return (driver_state == DRIVER_NEEDS_INIT);
         LDS     R16, driver_state
         TST     R16
         BRNE    ??Display_Is_Error_0
@@ -518,7 +526,7 @@ Display_Is_Error:
 ??Display_Is_Error_0:
         LDI     R16, 0
         RET
-//   74 }
+//   73 }
           CFI EndBlock cfiBlock5
 
         ASEGN ABSOLUTE:DATA:NOROOT,01fH
@@ -547,12 +555,12 @@ __?EEARH:
 
         END
 // 
-// 460 bytes in segment CODE
+// 470 bytes in segment CODE
 //   8 bytes in segment FAR_F
 //   7 bytes in segment INITTAB
 //   3 bytes in segment NEAR_Z
 // 
-// 468 bytes of CODE memory (+ 7 bytes shared)
+// 478 bytes of CODE memory (+ 7 bytes shared)
 //   3 bytes of DATA memory
 //
 //Errors: none

@@ -18,7 +18,7 @@
                     <analyzeTimeoutEnabled>1</analyzeTimeoutEnabled>
                     <analyzeTimeout>600</analyzeTimeout>
                     <enableParallel>1</enableParallel>
-                    <parallelThreads>2</parallelThreads>
+                    <parallelThreads>12</parallelThreads>
                     <enableFalsePositives>0</enableFalsePositives>
                     <messagesLimitEnabled>1</messagesLimitEnabled>
                     <messagesLimit>100</messagesLimit>
@@ -1095,7 +1095,7 @@
                     <analyzeTimeoutEnabled>1</analyzeTimeoutEnabled>
                     <analyzeTimeout>600</analyzeTimeout>
                     <enableParallel>1</enableParallel>
-                    <parallelThreads>2</parallelThreads>
+                    <parallelThreads>12</parallelThreads>
                     <enableFalsePositives>0</enableFalsePositives>
                     <messagesLimitEnabled>1</messagesLimitEnabled>
                     <messagesLimit>100</messagesLimit>

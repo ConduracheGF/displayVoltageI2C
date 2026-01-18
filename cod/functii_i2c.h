@@ -14,6 +14,7 @@
 #define SCL_CLOCK 100000UL
 // Direc?ia tranzac?iei: scriere catre Slave
 #define TW_WRITE 0
+
 /*
 * Status-ul tranzac?iei I2C
 * Enumerarea codurilor de stare pentru tranzac?iile I2C.
@@ -24,6 +25,16 @@ typedef enum {
   I2C_STATUS_BUSY, // Magistrala este ocupata cu o alta tranzac?ie
   I2C_STATUS_ERROR // Eroare pe magistrala (ex: NACK primit)
 } i2c_status_t;
+
+/*
+* Reprezinta starea curenta a modulului I2C/TWI.
+* Utilizata pentru a coordona transferurile non-blocante.
+*/
+typedef enum {
+  I2C_STATE_IDLE, // Nicio tranzactie în desfasurare
+  I2C_STATE_WRITING, // Se efectueaza o tranzactie de scriere
+  I2C_STATE_READING // Se efectueaza o tranzactie de citire
+} i2c_state_t;
 
 void i2c_init(void);
 /*

@@ -1,25 +1,27 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
-// IAR C/C++ Compiler V7.30.5.1680 for Microchip AVR      15/Jan/2026  22:36:27
+// IAR C/C++ Compiler V7.30.5.1680 for Microchip AVR      18/Jan/2026  10:22:17
 // Copyright 1996-2022 IAR Systems AB.
 //
 //    Source file  =  
-//        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\functii_timer.c
+//        C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\functii_timer.c
 //    Command line =  
-//        -f C:\Users\vboxuser\AppData\Local\Temp\EWDCB0.tmp
-//        (C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\functii_timer.c
+//        -f C:\Users\student\AppData\Local\Temp\EW42FC.tmp
+//        (C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\functii_timer.c
 //        --cpu=m1280 -ms -o
-//        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\Obj -lC
-//        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\List -lA
-//        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\List -y
-//        --initializers_in_flash --no_cse --no_inline --no_code_motion
+//        C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\Debug\Obj
+//        -lC
+//        C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\Debug\List
+//        -lA
+//        C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\Debug\List
+//        -y --initializers_in_flash --no_cse --no_inline --no_code_motion
 //        --no_cross_call --no_clustering --no_tbaa --debug
 //        -DENABLE_BIT_DEFINITIONS -e --eeprom_size 4096 --dlib --dlib_config
 //        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
 //        8.4\avr\LIB\DLIB\dlAVR-3s-ec_mul-n.h" -On)
 //    Locale       =  English_USA.1252
 //    List file    =  
-//        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\List\functii_timer.s90
+//        C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\Debug\List\functii_timer.s90
 //
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -45,7 +47,7 @@
         PUBWEAK `??TIMER0_ISR::??INTVEC 84`
         PUBLIC TIMER0_ISR
         PUBLIC Timer0_Init
-        PUBLIC Timer_Check_20ms
+        PUBLIC Timer_Check
         PUBWEAK _A_OCR0A
         PUBWEAK _A_TCCR0A
         PUBWEAK _A_TCCR0B
@@ -171,7 +173,7 @@
 TIMER0_ISR          SYMBOL "TIMER0_ISR"
 `??TIMER0_ISR::??INTVEC 84` SYMBOL "??INTVEC 84", TIMER0_ISR
 
-// C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\functii_timer.c
+// C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\functii_timer.c
 //    1 #include "functii_timer.h"
 //    2 #include <ioavr.h>
 
@@ -319,28 +321,27 @@ TIMER0_ISR:
 //   30 // Aceasta functie gestioneaza masina de stari a timer-ului
 
         RSEG `CODE`:CODE:NOROOT(1)
-//   31 bool Timer_Check_20ms(void) {
-Timer_Check_20ms:
+//   31 bool Timer_Check(void) {
+Timer_Check:
           CFI Block cfiBlock2 Using cfiCommon0
-          CFI Function Timer_Check_20ms
+          CFI Function Timer_Check
           CFI NoCalls
         CODE
-        MOVW    R21:R20, R27:R26
 //   32     bool ready = false;
         LDI     R16, 0
 //   33     
 //   34     switch (timer_state) {
         LDS     R17, timer_state
         SUBI    R17, 0
-        BREQ    ??Timer_Check_20ms_0
+        BREQ    ??Timer_Check_0
         DEC     R17
-        BREQ    ??Timer_Check_20ms_1
+        BREQ    ??Timer_Check_1
         DEC     R17
-        BREQ    ??Timer_Check_20ms_2
-        RJMP    ??Timer_Check_20ms_3
+        BREQ    ??Timer_Check_2
+        RET
 //   35         case TIMER_COUNTER:
 //   36             start_time = ms_ticks;
-??Timer_Check_20ms_0:
+??Timer_Check_0:
         LDI     R30, LOW(ms_ticks)
         LDI     R31, (ms_ticks) >> 8
         LD      R18, Z
@@ -353,35 +354,35 @@ Timer_Check_20ms:
         LDI     R17, 1
         STS     timer_state, R17
 //   38             break;
-        RJMP    ??Timer_Check_20ms_3
+        RET
 //   39 
 //   40         case TIMER_WAIT:
-//   41             if ((uint16_t)(ms_ticks - start_time) >= 20) {
-??Timer_Check_20ms_1:
-        LDI     R26, LOW(ms_ticks)
-        LDI     R27, (ms_ticks) >> 8
-        LD      R30, X+
-        LD      R31, X
-        SBIW    R27:R26, 1
-        LDI     R26, LOW(start_time)
-        LDI     R27, (start_time) >> 8
-        LD      R18, X+
-        LD      R19, X
-        SBIW    R27:R26, 1
-        SUB     R30, R18
-        SBC     R31, R19
-        SBIW    R31:R30, 20
-        BRCS    ??Timer_Check_20ms_3
+//   41             if ((uint16_t)(ms_ticks - start_time) >= 200) {
+??Timer_Check_1:
+        LDI     R30, LOW(ms_ticks)
+        LDI     R31, (ms_ticks) >> 8
+        LD      R18, Z
+        LDD     R19, Z+1
+        LDI     R30, LOW(start_time)
+        LDI     R31, (start_time) >> 8
+        LD      R20, Z
+        LDD     R21, Z+1
+        SUB     R18, R20
+        SBC     R19, R21
+        CPI     R18, 200
+        LDI     R17, 0
+        CPC     R19, R17
+        BRCS    ??Timer_Check_3
 //   42                 timer_state = TIMER_EXPIRED;
         LDI     R17, 2
         STS     timer_state, R17
 //   43             }
 //   44             break;
-        RJMP    ??Timer_Check_20ms_3
+        RET
 //   45 
 //   46         case TIMER_EXPIRED:
 //   47             ready = true;
-??Timer_Check_20ms_2:
+??Timer_Check_2:
         LDI     R16, 1
 //   48             timer_state = TIMER_COUNTER; // Resetam automat pentru urmatorul ciclu
         LDI     R17, 0
@@ -389,9 +390,7 @@ Timer_Check_20ms:
 //   49             break;
 //   50     }
 //   51     return ready;
-??Timer_Check_20ms_3:
-        MOVW    R27:R26, R21:R20
-          CFI R26 R20
+??Timer_Check_3:
         RET
 //   52 }
           CFI EndBlock cfiBlock2
@@ -605,12 +604,12 @@ __?EEARH:
         END
 // 
 //   4 bytes in segment ABSOLUTE
-// 400 bytes in segment CODE
+// 396 bytes in segment CODE
 //   7 bytes in segment INITTAB
 //   4 bytes in segment INTVEC
 //   5 bytes in segment NEAR_Z
 // 
-// 400 bytes of CODE memory (+ 11 bytes shared)
+// 396 bytes of CODE memory (+ 11 bytes shared)
 //   5 bytes of DATA memory (+  4 bytes shared)
 //
 //Errors: none

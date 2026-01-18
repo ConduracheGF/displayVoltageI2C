@@ -1,31 +1,33 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.30.5.1680 for Microchip AVR       15/Jan/2026  22:50:46
+# IAR C/C++ Compiler V7.30.5.1680 for Microchip AVR       16/Jan/2026  17:06:00
 # Copyright 1996-2022 IAR Systems AB.
 #
 #    Source file  =  
-#        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\usart_my_lib.c
+#        C:\Users\student.DESKTOP-NIC452T\Downloads\displayVoltageI2C\displayVoltageI2C\cod\usart_my_lib.c
 #    Command line =  
-#        -f C:\Users\vboxuser\AppData\Local\Temp\EWC45A.tmp
-#        (C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\usart_my_lib.c
+#        -f C:\Users\STUDEN~1.DES\AppData\Local\Temp\EW88B2.tmp
+#        (C:\Users\student.DESKTOP-NIC452T\Downloads\displayVoltageI2C\displayVoltageI2C\cod\usart_my_lib.c
 #        --cpu=m1280 -ms -o
-#        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\Obj -lC
-#        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\List -lA
-#        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\List -y
-#        --initializers_in_flash --no_cse --no_inline --no_code_motion
+#        C:\Users\student.DESKTOP-NIC452T\Downloads\displayVoltageI2C\displayVoltageI2C\cod\Debug\Obj
+#        -lC
+#        C:\Users\student.DESKTOP-NIC452T\Downloads\displayVoltageI2C\displayVoltageI2C\cod\Debug\List
+#        -lA
+#        C:\Users\student.DESKTOP-NIC452T\Downloads\displayVoltageI2C\displayVoltageI2C\cod\Debug\List
+#        -y --initializers_in_flash --no_cse --no_inline --no_code_motion
 #        --no_cross_call --no_clustering --no_tbaa --debug
 #        -DENABLE_BIT_DEFINITIONS -e --eeprom_size 4096 --dlib --dlib_config
 #        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
 #        8.4\avr\LIB\DLIB\dlAVR-3s-ec_mul-n.h" -On)
-#    Locale       =  English_USA.1252
+#    Locale       =  English_GBR.1252
 #    List file    =  
-#        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\List\usart_my_lib.lst
+#        C:\Users\student.DESKTOP-NIC452T\Downloads\displayVoltageI2C\displayVoltageI2C\cod\Debug\List\usart_my_lib.lst
 #    Object file  =  
-#        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\Obj\usart_my_lib.r90
+#        C:\Users\student.DESKTOP-NIC452T\Downloads\displayVoltageI2C\displayVoltageI2C\cod\Debug\Obj\usart_my_lib.r90
 #
 ###############################################################################
 
-C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\usart_my_lib.c
+C:\Users\student.DESKTOP-NIC452T\Downloads\displayVoltageI2C\displayVoltageI2C\cod\usart_my_lib.c
       1          #include "usart_my_lib.h"
       2          
       3          // Buffer auxiliar pentru construirea șirului de caractere

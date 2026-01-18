@@ -10,9 +10,11 @@
 
 "4096" 
 
-"--avrone_jtag_clock=100000" 
+"--avrone_jtag_clock=4000000" 
 
 "--jtagice_leave_timers_running" 
+
+"--jtagicemkII_use_software_breakpoints" 
 
 "--drv_communication=USB" 
 

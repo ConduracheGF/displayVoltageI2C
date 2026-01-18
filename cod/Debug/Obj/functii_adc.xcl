@@ -1,15 +1,15 @@
-"C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\functii_adc.c"
+"C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\functii_adc.c"
 -std=c99
 -ferror-limit=0
 -fbracket-depth=512
 -funsigned-char
 -MD
 -MF
-C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\Obj\functii_adc.pbi.dep
+C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\Debug\Obj\functii_adc.pbi.dep
 -o
 functii_adc.pbi
 -I
-C:\Users\vboxuser\Desktop\displayVoltageI2C\cod
+C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod
 -I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.4\avr\inc
 -I

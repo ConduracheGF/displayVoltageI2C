@@ -9,7 +9,7 @@ extern volatile uint16_t ms_ticks;
 
 void Timer0_Init(void);
 // Functie care returneaza true o data la 20ms
-bool Timer_Check_20ms(void);
+bool Timer_Check(void);
 
 // Functii delay (pastrate pentru compatibilitate)
 void delay_secunde(uint16_t time);

@@ -7,7 +7,7 @@
 #include <ioavr.h>
 
 // Dimensiunea bufferului circular
-#define BUFFER_SIZE 16
+#define BUFFER_SIZE 64
 
 // Structură utilizată pentru buffer circular
 struct round_buff {

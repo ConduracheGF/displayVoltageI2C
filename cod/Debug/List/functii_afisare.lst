@@ -1,31 +1,33 @@
 ###############################################################################
 #
-# IAR C/C++ Compiler V7.30.5.1680 for Microchip AVR       15/Jan/2026  22:41:15
+# IAR C/C++ Compiler V7.30.5.1680 for Microchip AVR       18/Jan/2026  12:23:17
 # Copyright 1996-2022 IAR Systems AB.
 #
 #    Source file  =  
-#        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\functii_afisare.c
+#        C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\functii_afisare.c
 #    Command line =  
-#        -f C:\Users\vboxuser\AppData\Local\Temp\EWFD43.tmp
-#        (C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\functii_afisare.c
+#        -f C:\Users\student\AppData\Local\Temp\EWF747.tmp
+#        (C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\functii_afisare.c
 #        --cpu=m1280 -ms -o
-#        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\Obj -lC
-#        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\List -lA
-#        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\List -y
-#        --initializers_in_flash --no_cse --no_inline --no_code_motion
+#        C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\Debug\Obj
+#        -lC
+#        C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\Debug\List
+#        -lA
+#        C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\Debug\List
+#        -y --initializers_in_flash --no_cse --no_inline --no_code_motion
 #        --no_cross_call --no_clustering --no_tbaa --debug
 #        -DENABLE_BIT_DEFINITIONS -e --eeprom_size 4096 --dlib --dlib_config
 #        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
 #        8.4\avr\LIB\DLIB\dlAVR-3s-ec_mul-n.h" -On)
 #    Locale       =  English_USA.1252
 #    List file    =  
-#        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\List\functii_afisare.lst
+#        C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\Debug\List\functii_afisare.lst
 #    Object file  =  
-#        C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\Debug\Obj\functii_afisare.r90
+#        C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\Debug\Obj\functii_afisare.r90
 #
 ###############################################################################
 
-C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\functii_afisare.c
+C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\functii_afisare.c
       1          #include "functii_afisare.h"
       2          #include "functii_i2c.h"
       3          #include "functii_timer.h"
@@ -46,7 +48,7 @@ C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\functii_afisare.c
    \                                 In  segment CODE, align 2, keep-with-next
      12          static send_status_t send_i2c(uint8_t addr_dummy, uint8_t reg, uint8_t val) {
    \                     send_i2c:
-   \   00000000   ........           CALL    ?PROLOGUE4_L09
+   \   00000000   ........           CALL    ?PROLOGUE3_L09
    \   00000004   9722               SBIW    R29:R28, 2
    \   00000006   2F80               MOV     R24, R16
    \   00000008   2F91               MOV     R25, R17
@@ -56,49 +58,47 @@ C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\functii_afisare.c
    \   0000000C   8398               ST      Y, R25
      15              data[1] = val;
    \   0000000E   83A9               STD     Y+1, R26
-     16              uint8_t i2c_addr = 0x00; 
-   \   00000010   E0B0               LDI     R27, 0
-     17          
-     18              while(i2c_is_busy());
+     16          
+     17              while(i2c_is_busy());
    \                     ??send_i2c_0:
-   \   00000012   ........           CALL    i2c_is_busy
-   \   00000016   2300               TST     R16
-   \   00000018   F7E1               BRNE    ??send_i2c_0
-     19              if(i2c_write_transaction(i2c_addr, data, 2) != I2C_STATUS_SUCCESS) return SEND_NOT_SUCCESSFUL;
-   \   0000001A   E012               LDI     R17, 2
-   \   0000001C   019E               MOVW    R19:R18, R29:R28
-   \   0000001E   2F0B               MOV     R16, R27
-   \   00000020   ........           CALL    i2c_write_transaction
-   \   00000024   2300               TST     R16
-   \   00000026   F011               BREQ    ??send_i2c_1
-   \   00000028   E001               LDI     R16, 1
-   \   0000002A   C00B               RJMP    ??send_i2c_2
-     20              while(i2c_is_busy());
+   \   00000010   ........           CALL    i2c_is_busy
+   \   00000014   2300               TST     R16
+   \   00000016   F7E1               BRNE    ??send_i2c_0
+     18              if(i2c_write_transaction(addr_dummy, data, 2) != I2C_STATUS_SUCCESS) return SEND_NOT_SUCCESSFUL;
+   \   00000018   E012               LDI     R17, 2
+   \   0000001A   019E               MOVW    R19:R18, R29:R28
+   \   0000001C   2F08               MOV     R16, R24
+   \   0000001E   ........           CALL    i2c_write_transaction
+   \   00000022   2300               TST     R16
+   \   00000024   F011               BREQ    ??send_i2c_1
+   \   00000026   E001               LDI     R16, 1
+   \   00000028   C00B               RJMP    ??send_i2c_2
+     19              while(i2c_is_busy());
    \                     ??send_i2c_1:
-   \   0000002C   ........           CALL    i2c_is_busy
-   \   00000030   2300               TST     R16
-   \   00000032   F7E1               BRNE    ??send_i2c_1
-     21              
-     22              if(i2c_get_last_status() == I2C_STATUS_SUCCESS) return SEND_SUCCESSFUL;
-   \   00000034   ........           CALL    i2c_get_last_status
-   \   00000038   2300               TST     R16
-   \   0000003A   F411               BRNE    ??send_i2c_3
-   \   0000003C   E000               LDI     R16, 0
-   \   0000003E   C001               RJMP    ??send_i2c_2
-     23              return SEND_NOT_SUCCESSFUL;
+   \   0000002A   ........           CALL    i2c_is_busy
+   \   0000002E   2300               TST     R16
+   \   00000030   F7E1               BRNE    ??send_i2c_1
+     20              
+     21              if(i2c_get_last_status() != I2C_STATUS_SUCCESS) return SEND_NOT_SUCCESSFUL;
+   \   00000032   ........           CALL    i2c_get_last_status
+   \   00000036   2300               TST     R16
+   \   00000038   F011               BREQ    ??send_i2c_3
+   \   0000003A   E001               LDI     R16, 1
+   \   0000003C   C001               RJMP    ??send_i2c_2
+     22              return SEND_SUCCESSFUL;
    \                     ??send_i2c_3:
-   \   00000040   E001               LDI     R16, 1
+   \   0000003E   E000               LDI     R16, 0
    \                     ??send_i2c_2:
-   \   00000042   9622               ADIW    R29:R28, 2
-   \   00000044   E0E4               LDI     R30, 4
-   \   00000046   ........           JMP     ?EPILOGUE_B4_L09
-     24          }
-     25          
+   \   00000040   9622               ADIW    R29:R28, 2
+   \   00000042   E0E3               LDI     R30, 3
+   \   00000044   ........           JMP     ?EPILOGUE_B3_L09
+     23          }
+     24          
 
    \                                 In  segment CODE, align 2, keep-with-next
-     26          send_status_t setup_7_segm(){
+     25          send_status_t setup_7_segm(){
    \                     setup_7_segm:
-     27            if(send_i2c(0x00, 0x09, 0xFF) != SEND_SUCCESSFUL) return SEND_NOT_SUCCESSFUL;
+     26            if(send_i2c(0x00, 0x09, 0xFF) != SEND_SUCCESSFUL) return SEND_NOT_SUCCESSFUL;
    \   00000000   EF2F               LDI     R18, 255
    \   00000002   E019               LDI     R17, 9
    \   00000004   E000               LDI     R16, 0
@@ -107,7 +107,7 @@ C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\functii_afisare.c
    \   0000000A   F011               BREQ    ??setup_7_segm_0
    \   0000000C   E001               LDI     R16, 1
    \   0000000E   9508               RET
-     28            if(send_i2c(0x00, 0x0A, 0x0F) != SEND_SUCCESSFUL) return SEND_NOT_SUCCESSFUL;
+     27            if(send_i2c(0x00, 0x0A, 0x0F) != SEND_SUCCESSFUL) return SEND_NOT_SUCCESSFUL;
    \                     ??setup_7_segm_0:
    \   00000010   E02F               LDI     R18, 15
    \   00000012   E01A               LDI     R17, 10
@@ -117,7 +117,7 @@ C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\functii_afisare.c
    \   0000001A   F011               BREQ    ??setup_7_segm_1
    \   0000001C   E001               LDI     R16, 1
    \   0000001E   9508               RET
-     29            if(send_i2c(0x00, 0x0B, 0x03) != SEND_SUCCESSFUL) return SEND_NOT_SUCCESSFUL;
+     28            if(send_i2c(0x00, 0x0B, 0x03) != SEND_SUCCESSFUL) return SEND_NOT_SUCCESSFUL;
    \                     ??setup_7_segm_1:
    \   00000020   E023               LDI     R18, 3
    \   00000022   E01B               LDI     R17, 11
@@ -127,7 +127,7 @@ C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\functii_afisare.c
    \   0000002A   F011               BREQ    ??setup_7_segm_2
    \   0000002C   E001               LDI     R16, 1
    \   0000002E   9508               RET
-     30            if(send_i2c(0x00, 0x0C, 0x01) != SEND_SUCCESSFUL) return SEND_NOT_SUCCESSFUL;
+     29            if(send_i2c(0x00, 0x0C, 0x01) != SEND_SUCCESSFUL) return SEND_NOT_SUCCESSFUL;
    \                     ??setup_7_segm_2:
    \   00000030   E021               LDI     R18, 1
    \   00000032   E01C               LDI     R17, 12
@@ -137,27 +137,27 @@ C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\functii_afisare.c
    \   0000003A   F011               BREQ    ??setup_7_segm_3
    \   0000003C   E001               LDI     R16, 1
    \   0000003E   9508               RET
-     31            return SEND_SUCCESSFUL;
+     30            return SEND_SUCCESSFUL;
    \                     ??setup_7_segm_3:
    \   00000040   E000               LDI     R16, 0
    \   00000042   9508               RET
-     32          }
-     33          
+     31          }
+     32          
 
    \                                 In  segment CODE, align 2, keep-with-next
-     34          static send_status_t afisare(int cifra[]) {
+     33          static send_status_t afisare(int cifra[]) {
    \                     afisare:
    \   00000000   ........           CALL    ?PROLOGUE4_L09
    \   00000004   01D8               MOVW    R27:R26, R17:R16
-     35              for (int i = 0; i < 4; i++) {
+     34              for (int i = 0; i < 4; i++) {
    \   00000006   E080               LDI     R24, 0
    \   00000008   E090               LDI     R25, 0
    \                     ??afisare_0:
    \   0000000A   3084               CPI     R24, 4
    \   0000000C   E000               LDI     R16, 0
    \   0000000E   0790               CPC     R25, R16
-   \   00000010   F4AC               BRGE    ??afisare_1
-     36                if(send_i2c(0x00, i + 1, cifra[3-i]) != SEND_SUCCESSFUL) return SEND_NOT_SUCCESSFUL;
+   \   00000010   F4DC               BRGE    ??afisare_1
+     35                if(send_i2c(0x00, i + 1, cifra[3-i]) != SEND_SUCCESSFUL) return SEND_NOT_SUCCESSFUL;
    \   00000012   018C               MOVW    R17:R16, R25:R24
    \   00000014   9511               NEG     R17
    \   00000016   9501               NEG     R16
@@ -176,17 +176,23 @@ C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\functii_afisare.c
    \   00000030   2300               TST     R16
    \   00000032   F011               BREQ    ??afisare_2
    \   00000034   E001               LDI     R16, 1
-   \   00000036   C003               RJMP    ??afisare_3
-     37              }
+   \   00000036   C009               RJMP    ??afisare_3
+     36                delay_milisecunde(50);
    \                     ??afisare_2:
-   \   00000038   9601               ADIW    R25:R24, 1
-   \   0000003A   CFE7               RJMP    ??afisare_0
+   \   00000038   E302               LDI     R16, 50
+   \   0000003A   E010               LDI     R17, 0
+   \   0000003C   E020               LDI     R18, 0
+   \   0000003E   E030               LDI     R19, 0
+   \   00000040   ........           CALL    delay_milisecunde
+     37              }
+   \   00000044   9601               ADIW    R25:R24, 1
+   \   00000046   CFE1               RJMP    ??afisare_0
      38              return SEND_SUCCESSFUL;
    \                     ??afisare_1:
-   \   0000003C   E000               LDI     R16, 0
+   \   00000048   E000               LDI     R16, 0
    \                     ??afisare_3:
-   \   0000003E   E0E4               LDI     R30, 4
-   \   00000040   ........           JMP     ?EPILOGUE_B4_L09
+   \   0000004A   E0E4               LDI     R30, 4
+   \   0000004C   ........           JMP     ?EPILOGUE_B4_L09
      39          }
      40          
 
@@ -307,8 +313,7 @@ C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\functii_afisare.c
    \   00000036   E000               LDI     R16, 0
    \   00000038   9300....           STS     driver_state, R16
      65                      }
-     66                      // Mecanism simplu de safety (re-init periodic)
-     67                      if (++safety_counter >= 100) driver_state = DRIVER_NEEDS_INIT;
+     66                      if (++safety_counter >= 100) driver_state = DRIVER_NEEDS_INIT;
    \                     ??Display_Task_Run_3:
    \   0000003C   ....               LDI     R30, LOW(??safety_counter)
    \   0000003E   ....               LDI     R31, (??safety_counter) >> 8
@@ -328,9 +333,9 @@ C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\functii_afisare.c
    \   0000005A   F018               BRCS    ??Display_Task_Run_2
    \   0000005C   E000               LDI     R16, 0
    \   0000005E   9300....           STS     driver_state, R16
-     68                      break;
-     69              }
-     70          }
+     67                      break;
+     68              }
+     69          }
    \                     ??Display_Task_Run_2:
    \   00000062   9189               LD      R24, Y+
    \   00000064   9199               LD      R25, Y+
@@ -340,12 +345,12 @@ C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\functii_afisare.c
    \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
    \                     ??safety_counter:
    \   00000000                      DS8 2
-     71          
+     70          
 
    \                                 In  segment CODE, align 2, keep-with-next
-     72          bool Display_Is_Error(void) {
+     71          bool Display_Is_Error(void) {
    \                     Display_Is_Error:
-     73              return (driver_state == DRIVER_NEEDS_INIT);
+     72              return (driver_state == DRIVER_NEEDS_INIT);
    \   00000000   9100....           LDS     R16, driver_state
    \   00000004   2300               TST     R16
    \   00000006   F411               BRNE    ??Display_Is_Error_0
@@ -354,7 +359,7 @@ C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\functii_afisare.c
    \                     ??Display_Is_Error_0:
    \   0000000C   E000               LDI     R16, 0
    \   0000000E   9508               RET
-     74          }
+     73          }
 
    \                                 In  segment FAR_F, align 1, keep-with-next
    \   00000000   000000000000       DC16 0, 0, 0, 0
@@ -369,14 +374,15 @@ C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\functii_afisare.c
         2      2   -> afisare_tensiune
         2      2   -> setup_7_segm
       4      2   afisare
+        4      2   -> delay_milisecunde
         4      2   -> send_i2c
      12      2   afisare_tensiune
        12      2   -> afisare
        12      2 ?US_DIVMOD_L02
-      6      2   send_i2c
-        6      2   -> i2c_get_last_status
-        6      2   -> i2c_is_busy
-        6      2   -> i2c_write_transaction
+      5      2   send_i2c
+        5      2   -> i2c_get_last_status
+        5      2   -> i2c_is_busy
+        5      2   -> i2c_write_transaction
       0      2   setup_7_segm
         0      2   -> send_i2c
 
@@ -388,21 +394,21 @@ C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\functii_afisare.c
        8  ?<Constant {0, 0, 0, 0}>
       16  Display_Is_Error
      104  Display_Task_Run
-      68  afisare
+      80  afisare
      130  afisare_tensiune
        1  driver_state
        2  safety_counter
-      74  send_i2c
+      72  send_i2c
       68  setup_7_segm
        7  -- Other
 
  
- 460 bytes in segment CODE
+ 470 bytes in segment CODE
    8 bytes in segment FAR_F
    7 bytes in segment INITTAB
    3 bytes in segment NEAR_Z
  
- 468 bytes of CODE memory (+ 7 bytes shared)
+ 478 bytes of CODE memory (+ 7 bytes shared)
    3 bytes of DATA memory
 
 Errors: none

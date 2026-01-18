@@ -174,7 +174,7 @@
                 <option>
                     <name>OATMELICEJtagIceJtagFreq</name>
                     <version>0</version>
-                    <state>8</state>
+                    <state>16</state>
                 </option>
                 <option>
                     <name>OATMELICEJtagIceJtagDeviceBefore</name>
@@ -214,7 +214,7 @@
                 </option>
                 <option>
                     <name>OATMELICEJtagSoftwareBreak</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>ExitBreakpointP7</name>

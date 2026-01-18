@@ -1,20 +1,20 @@
 main.pbi: \
   C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.4\avr\inc\dlib\c\stdint.h \
-  C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\functii_timer.h \
-  C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\functii_afisare.h \
-  C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\functii_adc.h \
+  C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\functii_timer.h \
+  C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\functii_afisare.h \
+  C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\functii_adc.h \
   C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.4\avr\inc\iomacro.h \
   C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.4\avr\inc\iom1280.h \
   C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.4\avr\inc\ioavr.h \
   C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.4\avr\inc\intrinsics.h \
   C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.4\avr\inc\inavr.h \
-  C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\usart_my_lib.h \
+  C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\usart_my_lib.h \
   C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.4\avr\inc\dlib\c\ycheck.h \
   C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.4\avr\inc\dlib\c\ysizet.h \
   C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.4\avr\inc\dlib\c\stddef.h \
-  C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\usart_round_buff.h \
-  C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\usart_control.h \
-  C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\functii_i2c.h \
+  C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\usart_round_buff.h \
+  C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\usart_control.h \
+  C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\functii_i2c.h \
   C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.4\avr\inc\dlib\c\stdbool.h \
   C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.4\avr\inc\dlib\c\DLib_Threads.h \
   C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.4\avr\inc\dlib\c\yvals.h \
@@ -23,4 +23,4 @@ main.pbi: \
   C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.4\avr\LIB\DLIB\dlAVR-3s-ec_mul-n.h \
   C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.4\avr\inc\dlib\c\DLib_Defaults.h \
   C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.4\avr\inc\bitdefinitions\iom1280.inc \
-  C:\Users\vboxuser\Desktop\displayVoltageI2C\cod\main.c
+  C:\Users\student\Downloads\displayVoltageI2C-20260118T071946Z-1-001\displayVoltageI2C\cod\main.c

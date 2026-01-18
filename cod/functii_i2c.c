@@ -1,6 +1,7 @@
 #include "functii_i2c.h"
 #include <ioavr.h>
 #include <inavr.h>
+#include <stdint.h>
 
 // Conditie START transmisa
 #define TW_START 0x08
@@ -15,26 +16,15 @@
 // Master Receive: octet de date recep?ionat, NACK returnat
 #define TW_MR_DATA_NACK 0x58 
 
-/*
-* Reprezinta starea curenta a modulului I2C/TWI.
-* Utilizata pentru a coordona transferurile non-blocante.
-*/
-typedef enum {
-  I2C_STATE_IDLE, // Nicio tranzactie în desfasurare
-  I2C_STATE_WRITING, // Se efectueaza o tranzactie de scriere
-  I2C_STATE_READING // Se efectueaza o tranzactie de citire
-} i2c_state_t;
-
 
 // Starea curenta
-static volatile i2c_state_t g_i2c_state = I2C_STATE_IDLE;
+volatile i2c_state_t g_i2c_state = I2C_STATE_IDLE;
 // Ultimul status returnat
 static volatile i2c_status_t g_i2c_status = I2C_STATUS_SUCCESS;
 static uint8_t g_slave_address; // Adresa slave (cu bitul R/W inclus)
 static uint8_t* g_data_ptr; // Pointer catre bufferul de date
 static uint8_t g_data_len; // Lungimea totala a transferului
 static uint8_t g_data_idx; // Indexul curent în buffer
-
 
 /*
 * Functia initializeaza modulul TWI/I2C.

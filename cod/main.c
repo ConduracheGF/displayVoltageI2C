@@ -10,73 +10,106 @@
 #include "functii_afisare.h"
 #include "functii_timer.h"
 
+/*
+
 typedef enum {
-  SYSTEM_OK,
-  SYSTEM_ERROR
+    SYSTEM_OK,
+    SYSTEM_ERROR
 } system_status_t;
 
 static system_status_t system_status = SYSTEM_OK;
 
 int main(void) {
-    
-    // Initializare ADC (configurare registre, fara start conversie)
     ADC_Init();
-    
-    // Initializare I2C pentru comunicarea cu driverul de display
     i2c_init();
-    
-    // Initializare USART cu Baud Rate calculat (9600 bps)
     USART_initialize(BAUD_RATE);
-    
-    // Initializare Timer0 pentru baza de timp de 1ms
     Timer0_Init();
     
-    // Activare globala a intreruperilor (necesar pentru I2C, USART si Timer)
     __enable_interrupt();
 
-    // Variabila locala pentru a stoca valoarea de afisat/trimis
     uint16_t valoare_curenta = 0;
 
     while (1) {
+        // Ruleaza masina de stari ADC (Pornire -> Convert -> Filtrare)
+        // Trebuie sa fie in afara timerului pentru a avea media FIR gata rapid
+        ADC_Task_Run();
         
-        // Verificam daca au trecut 20ms (bataia inimii a sistemului)
+        // Ruleaza masina de stari USART (Trimite octetii din buffer pe rand)
+        USART_Task_Run();
+
         if (Timer_Check_20ms()) {
             
-            // Management ADC: 
-            // Task-ul gestioneaza singur Starile: Pornire -> Asteptare -> Citire -> Filtrare FIR
-            ADC_Task_Run();
-            
-            // Verificam daca avem date noi de la ADC
+            // Verificam daca ADC-ul a finalizat calculul mediei
             if (ADC_Is_Data_Ready()) {
-                
-                // Preluam valoarea filtrata (media ultimelor 8 masuratori)
                 valoare_curenta = ADC_Get_Filtered_Value();
-                
-                // Management Display:
-                // Trimite datele catre AS1115 via I2C. 
-                // Daca I2C-ul este ocupat sau da eroare, task-ul va incerca sa re-initializeze driverul.
-                Display_Task_Run(valoare_curenta);
-                
-                // Management USART (State Machine):
-                // Trimitem pe seriala doar daca masina de stari USART este in IDLE 
-                // (adica bufferul circular de transmisie a fost golit anterior)
-                if (USART_Is_Ready()) {
-                    my_print(INTEGER, &valoare_curenta);
+
+                // Nu mai folosim USART_Is_Ready() pentru a nu sari peste valori
+                my_print(INTEGER, &valoare_curenta);
+
+                // Verificam daca magistrala nu este blocata inainte de a trimite
+                if (!i2c_is_busy()) {
+                    Display_Task_Run(valoare_curenta);
                 }
             }
-            
-            // Verificare Siguranta:
-            // Daca driverul de afisare raporteaza erori critice repetate
+
+            // Daca I2C raporteaza eroare, sistemul trece in status ERROR
             if (Display_Is_Error()) {
                 system_status = SYSTEM_ERROR;
             } else {
                 system_status = SYSTEM_OK;
             }
         }
+    }
+}
+
+*/
+
+extern volatile i2c_state_t g_i2c_state; 
+
+void main(void) {
+    // 1. Initializari Hardware
+    i2c_init();
+    Timer0_Init();
+    __enable_interrupt();
+
+    // 2. Initializare Driver Afisaj (asteptam pana reuseste)
+    while(setup_7_segm() != SEND_SUCCESSFUL) {
+        // Daca nu reuseste, resetam variabila de stare pentru a reincerca
+        g_i2c_state = I2C_STATE_IDLE;
+        delay_milisecunde(10); 
+    }
+
+    // 3. Datele de test
+    uint16_t valori[] = {3245, 3976, 2578, 1234, 1678, 2345, 3456, 4567, 3245, 3976, 2578, 1234, 1678, 2345, 3456, 4567, 3245, 3976, 2578, 1234, 1678, 2345, 3456, 4567};
+    uint8_t index = 0;
+
+    while (1) {
+        // Verificam daca a trecut timpul setat in Timer_Check (ex: 500ms)
+        if (Timer_Check()) {
+            
+            // Verificam daca masina de stari I2C este libera
+            if (!i2c_is_busy()) {
+                // Trimitem valoarea la afisaj
+                afisare_tensiune(valori[index]);
+                
+                // Trecem la urmatoarea valoare din vector
+                index++;
+                if (index >= 24) index = 0;
+            } 
+            else {
+                /* LOGICA DE DEBLOCARE (Safety Net):
+                   Daca am intrat aici, inseamna ca Timer_Check() a zis "e timpul", 
+                   dar I2C-ul este inca blocat de la transmisia anterioara.
+                */
+                
+                // Reset Hardware: Trimitem un semnal STOP fortat pe fire
+                TWCR = (1 << TWINT) | (1 << TWEN) | (1 << TWSTO); 
+                
+                // Reset Software: Spunem codului ca magistrala este acum IDLE
+                g_i2c_state = I2C_STATE_IDLE; 
+            }
+        }
         
-        // Task-uri de fundal:
-        // Acestea ruleaza cat mai des posibil (in afara if-ului de 20ms) 
-        // pentru a procesa cozile de date sau flag-urile de hardware.
-        USART_Task_Run(); 
+        // Aici poti adauga si alte task-uri (ex: ADC_Task_Run() sau USART_Task_Run())
     }
 }
