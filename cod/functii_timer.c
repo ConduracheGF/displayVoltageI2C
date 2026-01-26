@@ -5,13 +5,6 @@
 #include <intrinsics.h>
 
 volatile uint16_t ms_ticks = 0;
-
-typedef enum {
-    TIMER_COUNTER,
-    TIMER_WAIT,
-    TIMER_EXPIRED
-} timer_state_t;
-
 static timer_state_t timer_state = TIMER_COUNTER;
 static uint16_t start_time = 0;
 

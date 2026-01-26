@@ -4,6 +4,12 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+typedef enum {
+  ADC_REPAUS,
+  ADC_CONVERT,
+  ADC_READY
+} adc_state_t;
+
 void ADC_Init(void);
 uint16_t ADC_Get_Result(void);
 

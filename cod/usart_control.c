@@ -4,13 +4,6 @@
 #define SET_BAUD_H(BAUDRATE) UBRR1H = (uint8_t)(BAUDRATE >> 8)
 #define SET_BAUD_L(BAUDRATE) UBRR1L = (uint8_t)(BAUDRATE & 0xFF)
 
-// Definirea stărilor interne pentru State Machine
-typedef enum {
-    USART_STATE_IDLE,
-    USART_STATE_SENDING,
-    USART_STATE_COMPLETE
-} usart_task_state_t;
-
 static usart_task_state_t usart_state = USART_STATE_IDLE;
 
 // Bufferele circulare sunt declarate extern în .h, aici le instanțiem
@@ -34,27 +27,40 @@ void USART_initialize(uint16_t baud_rate) {
     usart_state = USART_STATE_IDLE;
 }
 
-void USART_Task_Run(void) {
+bool USART_Task_Run(uint8_t *data, int16_t len) {
+    bool ready = false;
+  
     switch (usart_state) {
         case USART_STATE_IDLE:
-            // Dacă buffer-ul nu mai este gol, înseamnă că am început să trimitem ceva
-            if (!is_empty(&tx_buffer)) {
+            if (data != NULL && len > 0) {
+                // Încărcăm datele în bufferul circular
+                push_vec(&tx_buffer, data, len);
+                
+                // Forțăm pornirea transmisiei dacă hardware-ul e liber
+                if (UCSR1A & (1 << UDRE1)) {
+                    if (!is_empty(&tx_buffer)) {
+                        UDR1 = pop(&tx_buffer);
+                    }
+                }
                 usart_state = USART_STATE_SENDING;
+            } else {
+                ready = true; // Suntem în IDLE și nu avem nimic de trimis
             }
             break;
 
         case USART_STATE_SENDING:
-            // Dacă buffer-ul s-a golit, marcăm finalizarea
+            // Verificăm dacă bufferul s-a golit prin ISR
             if (is_empty(&tx_buffer)) {
                 usart_state = USART_STATE_COMPLETE;
             }
             break;
 
         case USART_STATE_COMPLETE:
-            // Revenim în IDLE pentru a permite o nouă comandă de print
             usart_state = USART_STATE_IDLE;
+            ready = true;
             break;
     }
+    return ready;
 }
 
 bool USART_Is_Ready(void) {
@@ -62,15 +68,21 @@ bool USART_Is_Ready(void) {
 }
 
 uint16_t USART_transmit_string(uint8_t *s, int16_t length) {
+    // Dezactivăm întreruperile global pentru a proteja bufferul
+    __disable_interrupt(); 
+    
     uint16_t res = push_vec(&tx_buffer, s, length);
     
-    // Dacă transmițătorul este liber (UDRE1), forțăm trimiterea primului caracter 
-    // pentru a declanșa cascada de întreruperi TX
+    // Verificăm dacă transmițătorul este liber (UDRE1)
     if (UCSR1A & (1 << UDRE1)) {
         if (!is_empty(&tx_buffer)) {
             UDR1 = pop(&tx_buffer);
         }
     }
+    
+    // Reactivăm întreruperile
+    __enable_interrupt(); 
+    
     return res;
 }
 
