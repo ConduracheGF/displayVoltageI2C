@@ -9,7 +9,7 @@ Enumerare pentru starile automatului de control global.
 Gestioneaza fluxul de la citirea ADC pâna la raportarea pe USART.
 */
 typedef enum {
-    SISTEM_IDLE,            // Asteapta expirarea timer-ului (200ms)
+    SISTEM_IDLE,            // Asteapta expirarea timer-ului
     SISTEM_CITIRE_ADC,      // Verifica si preia datele de la senzor
     SISTEM_UPDATE_AFISAJ,   // Actualizeaza afi?ajul 7-segmente via I2C
     SISTEM_TRIMITE_USART    // Formateaza si încarca string-ul în buffer-ul TX
@@ -18,7 +18,7 @@ typedef enum {
 /*
 Initializeaza toate modulele periferice.
 Configureaza USART, ADC, Timer0 si I2C.
-Include ?i secven?a de setup blocanta pentru driverul de afi?aj.
+Include si secventa de setup blocanta pentru driverul de afi?aj.
 */
 void Sistem_Init(void);
 

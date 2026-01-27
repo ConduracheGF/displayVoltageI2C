@@ -4,22 +4,22 @@
 #include <stdint.h>
 
 
-// Starea curenta
+//starea curenta
 volatile i2c_state_t g_i2c_state = I2C_STATE_IDLE;
-// Ultimul status returnat
+//ultimul status returnat
 static volatile i2c_status_t g_i2c_status = I2C_STATUS_SUCCESS;
 static uint8_t init_step = 0;
 
 /*
-* Functia initializeaza modulul TWI/I2C.
-* - Configureaza prescaler-ul si frecven?a de lucru (SCL_CLOCK).
-* - Activeaza perifericul TWI (fara a activa întreruperile înca).
+functia initializeaza modulul TWI/I2C.
+configureaza prescalerul si frecventa de lucru (SCL_CLOCK).
+activeaza perifericul TWI (fara a activa întreruperile inca).
 */
 void setup_i2c(void) {
-  TWSR = 0x00; // Prescaler = 1
-  // Baud-rate generator pentru SCL
+  TWSR = 0x00; //prescaler = 1
+  //baud-rate generator pentru SCL
   TWBR = 72; //100kHz
-  // Activeaza TWI, fara întreruperi
+  //activeaza TWI, fara întreruperi
   TWCR = (1 << TWEN);
   g_i2c_state = I2C_STATE_IDLE;
 }
@@ -110,15 +110,15 @@ i2c_status_t send_i2c(unsigned int address, unsigned int reg, unsigned int data)
     return I2C_STATUS_SUCCESS;
 }
 
-// LOGICA DE AFISARE PE SEGMENTE
+//LOGICA DE AFISARE PE SEGMENTE
 
 i2c_status_t setup_7_segm(){
   uint8_t reg, data;
   switch (init_step) {
-  case 0: reg = 0x09; data = 0xFF; break; // Decode Mode
-  case 1: reg = 0x0A; data = 0x0F; break; // Intensity
-  case 2: reg = 0x0B; data = 0x03; break; // Scan Limit
-  case 3: reg = 0x0C; data = 0x01; break; // Shutdown -> Normal
+  case 0: reg = 0x09; data = 0xFF; break; //decode mode
+  case 1: reg = 0x0A; data = 0x0F; break; //intensity
+  case 2: reg = 0x0B; data = 0x03; break; //scan limit
+  case 3: reg = 0x0C; data = 0x01; break; //shutdown -> normal
   default: return I2C_STATUS_SUCCESS;
   }
   
@@ -154,10 +154,10 @@ i2c_status_t afisare_tensiune(uint16_t mV) {
 //AUTOMATUL DE STARI I2C
 
 i2c_status_t I2C_Task_Run(uint16_t valoare_tensiune, uint8_t force_init){
-    //Daca driverul cere init manual sau safety counter a expirat in driver
+    //daca driverul cere init manual sau safety counter a expirat in driver
     if (force_init) {
         init_step = 0;
-        g_i2c_state = I2C_STATE_IDLE; //Resetam starea pentru a reincepe
+        g_i2c_state = I2C_STATE_IDLE; //resetam starea pentru a reincepe
     }
 
     switch (g_i2c_state) {
@@ -165,10 +165,10 @@ i2c_status_t I2C_Task_Run(uint16_t valoare_tensiune, uint8_t force_init){
             recover_bus_i2c();
             init_step = 0;
             g_i2c_state = I2C_STATE_IDLE;
-            return I2C_STATUS_ERROR; //Raportam ca am fost blocati
+            return I2C_STATUS_ERROR; //raportam ca am fost blocati
 
         case I2C_STATE_IDLE:
-            //Incercam afisarea
+            //incercam afisarea
             if (afisare_tensiune(valoare_tensiune) == I2C_STATUS_SUCCESS) {
                 return I2C_STATUS_SUCCESS;
             } else {
@@ -177,7 +177,7 @@ i2c_status_t I2C_Task_Run(uint16_t valoare_tensiune, uint8_t force_init){
             }
 
         case I2C_STATE_WRITING:
-            //Putem folosi asta daca implementam setup_7_segm pas cu pas aici
+            //putem folosi asta daca implementam setup_7_segm pas cu pas aici
             if (setup_7_segm() == I2C_STATUS_SUCCESS) {
                 g_i2c_state = I2C_STATE_IDLE;
                 return I2C_STATUS_SUCCESS;

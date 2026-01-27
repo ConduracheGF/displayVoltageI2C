@@ -21,24 +21,24 @@
 #define TW_WRITE_ADDRESS 0x00
 
 /*
-* Status-ul tranzactiei I2C
-* Enumerarea codurilor de stare pentru tranzac?iile I2C.
-* Utila pentru depanare ?i gestionarea non-blocanta a transferurilor.
+Statusul tranzactiei I2C
+Enumerarea codurilor de stare pentru tranzactiile I2C.
+Utila pentru depanare si gestionarea non-blocanta a transferurilor.
 */
 typedef enum {
-  I2C_STATUS_SUCCESS, // Tranzac?ia a fost pornita cu succes
-  I2C_STATUS_BUSY, // Magistrala este ocupata cu o alta tranzac?ie
-  I2C_STATUS_ERROR // Eroare pe magistrala (ex: NACK primit)
+  I2C_STATUS_SUCCESS, //tranzactia a fost pornita cu succes
+  I2C_STATUS_BUSY, //magistrala este ocupata cu o alta tranzac?ie
+  I2C_STATUS_ERROR //eroare pe magistrala (NACK primit)
 } i2c_status_t;
 
 /*
-* Reprezinta starea curenta a modulului I2C/TWI.
-* Utilizata pentru a coordona transferurile non-blocante.
+Reprezinta starea curenta a modulului I2C/TWI.
+Utilizata pentru a coordona transferurile non-blocante.
 */
 typedef enum {
-  I2C_STATE_IDLE, // Nicio tranzactie în desfasurare
-  I2C_STATE_WRITING, // Se efectueaza o tranzactie de scriere
-  I2C_STATE_STUCK // Se efectueaza un moment de busire
+  I2C_STATE_IDLE, //nicio tranzactie în desfasurare
+  I2C_STATE_WRITING, //se efectueaza o tranzactie de scriere
+  I2C_STATE_STUCK //se efectueaza un moment de busire
 } i2c_state_t;
 
 i2c_status_t setup_7_segm(void);
