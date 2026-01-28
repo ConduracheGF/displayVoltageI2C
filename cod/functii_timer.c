@@ -31,7 +31,7 @@ bool Timer_Check(void) {
             break;
 
         case TIMER_WAIT:
-            if ((uint16_t)(ms_ticks - start_time) >= 20) {
+            if ((uint16_t)(ms_ticks - start_time) >= 50) { //50 ms timpul de executie al unui timer 
                 timer_state = TIMER_EXPIRED;
             }
             break;
